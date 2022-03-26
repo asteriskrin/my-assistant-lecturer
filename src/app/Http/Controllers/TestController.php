@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DateTime;
+use DB;
 
 use App\Core\Domain\Model\Lowongan;
 
@@ -13,6 +14,13 @@ class TestController extends Controller
      * Show test page
      */
     public function test() {
+        // Test DB connection
+        try {
+            DB::connection()->getPdo();
+        } catch (\Exception $e) {
+            die("Could not connect to the database.  Please check your configuration. error:" . $e );
+        }
+
         $lowongan = new Lowongan(1,
             2,
             3,
