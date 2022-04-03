@@ -3,11 +3,14 @@
 namespace App\Core\Domain\Model;
 
 use DateTime;
+use App\Core\Domain\Model\LowonganId;
+use App\Core\Domain\Model\DosenId;
+use App\Core\Domain\Model\MataKuliahId;
 
 class Lowongan {
-    private int $id;
-    private int $dosen_id;
-    private int $mata_kuliah_id;
+    private LowonganId $id;
+    private DosenId $dosen_id;
+    private MataKuliahId $mata_kuliah_id;
     private string $kode_kelas;
     private int $gaji;
     private DateTime $tanggal_mulai;
@@ -17,9 +20,9 @@ class Lowongan {
     private DateTime $created_at;
 
     public function __construct(
-        int $id,
-        int $dosen_id,
-        int $mata_kuliah_id,
+        LowonganId $id,
+        DosenId $dosen_id,
+        MataKuliahId $mata_kuliah_id,
         string $kode_kelas,
         int $gaji,
         DateTime $tanggal_mulai,
@@ -28,8 +31,6 @@ class Lowongan {
         bool $terbuka,
         ?DateTime $created_at
     ) {
-        if ($id < 1) throw new \InvalidArgumentException("Invalid id format.");
-        if ($dosen_id < 1) throw new \InvalidArgumentException("Invalid dosen_id format.");
         if ($kode_kelas == '\0') throw new \InvalidArgumentException("kode_kelas can not be null string.");
         if ($gaji < 0) throw new \InvalidArgumentException("Invalid gaji format.");
         if ($tanggal_selesai < $tanggal_mulai) throw new \InvalidArgumentException("Invalid tanggal_mulai and tanggal_selesai format.");
@@ -47,7 +48,39 @@ class Lowongan {
         $this->created_at = $created_at;
     }
 
+    public function getId() : LowonganId {
+        return $this->id;
+    }
+
+    public function getDosenId() : DosenId {
+        return $this->dosen_id;
+    }
+
+    public function getMataKuliahId() : MataKuliahId {
+        return $this->mata_kuliah_id;
+    }
+
+    public function getKodeKelas() : string {
+        return $this->kode_kelas;
+    }
+
+    public function getGaji() : int {
+        return $this->gaji;
+    }
+
+    public function getTanggalMulai() : DateTime {
+        return $this->tanggal_mulai;
+    }
+
+    public function getTanggalSelesai() : DateTime {
+        return $this->tanggal_selesai;
+    }
+
     public function getDeskripsi() : string {
         return $this->deskripsi;
+    }
+
+    public function getCreatedAt() : DateTime {
+        return $this->created_at;
     }
 }

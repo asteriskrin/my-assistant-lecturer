@@ -21,3 +21,5 @@ Route::get('/', function () {
 });
 Route::get('/test', [TestController::class, 'test']);
 Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');
+Route::get('/lowongan/tambah-lowongan', [LowonganController::class, 'tambah'])->name('tambah-lowongan');
+Route::post('/lowongan/tambah-lowongan', [LowonganController::class, 'tambahAction']);
