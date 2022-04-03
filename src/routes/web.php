@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\LowonganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test', [TestController::class, 'test']);
+Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');
