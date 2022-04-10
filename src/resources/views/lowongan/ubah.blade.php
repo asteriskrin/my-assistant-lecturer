@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Tambah Lowongan')
+@section('title', 'Edit Lowongan')
 @section('content')
     <form method="POST" action="{{ route('ubah-lowongan', ['lowonganId' => $lowongan->id]) }}">
         @csrf
