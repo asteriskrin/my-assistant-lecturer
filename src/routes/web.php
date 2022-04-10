@@ -23,3 +23,5 @@ Route::get('/test', [TestController::class, 'test']);
 Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');
 Route::get('/lowongan/tambah-lowongan', [LowonganController::class, 'tambah'])->name('tambah-lowongan');
 Route::post('/lowongan/tambah-lowongan', [LowonganController::class, 'tambahAction']);
+Route::get('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubah'])->name('ubah-lowongan');
+Route::post('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubahAction']);

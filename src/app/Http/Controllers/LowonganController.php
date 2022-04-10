@@ -41,6 +41,25 @@ class LowonganController extends Controller
     }
 
     /**
+     * Show Ubah Lowongan page.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function ubah($lowonganId) {
+        // TODO: Add authentication and check if the Dosen is the owner of the Lowongan
+
+        $lowongan = $this->daftarLowonganQuery->byId($lowonganId);
+
+        if (!$lowongan) {
+            return abort(404);
+        }
+
+        return view('lowongan.ubah', [
+            'lowongan' => $lowongan
+        ]);
+    }
+
+    /**
      * Tambah Lowongan Action
      */
     public function tambahAction(Request $request) {
