@@ -18,7 +18,7 @@ class SqlServerLowonganRepository implements LowonganRepository {
         ]);
         
         if ($exists) {
-            // TODO: Add UPDATE SQL
+            $this->update($lowongan);
         }
         else {
             $data = [
@@ -38,5 +38,26 @@ class SqlServerLowonganRepository implements LowonganRepository {
 
             DB::insert($sql, $data);
         }
+    }
+    /**
+     * Update Lowongan data in database.
+     */
+    public function update(Lowongan $lowongan) : void {
+        $sql = "UPDATE lowongan
+                SET dosen_id = :dosen_id, mata_kuliah_id = :mata_kuliah_id, kode_kelas = :kode_kelas, gaji = :gaji, tanggal_mulai = :tanggal_mulai, tanggal_selesai = :tanggal_selesai, deskripsi = :deskripsi
+                WHERE id = :id";
+        
+        $data = [
+            'id' => $lowongan->getId()->id(),
+            'dosen_id' => $lowongan->getDosenId()->id(),
+            'mata_kuliah_id' => $lowongan->getMataKuliahId()->id(),
+            'kode_kelas' => $lowongan->getKodeKelas(),
+            'gaji' => $lowongan->getGaji(),
+            'tanggal_mulai' => $lowongan->getTanggalMulai()->format('y-m-d'),
+            'tanggal_selesai' => $lowongan->getTanggalSelesai()->format('y-m-d'),
+            'deskripsi' => $lowongan->getDeskripsi()
+        ];
+
+        DB::update($sql, $data);
     }
 }

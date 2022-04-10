@@ -8,13 +8,16 @@ use DateTime;
 use App\Core\Application\Query\DaftarLowongan\DaftarLowonganQueryInterface;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganRequest;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganService;
+use App\Core\Application\Service\UbahLowongan\UbahLowonganRequest;
+use App\Core\Application\Service\UbahLowongan\UbahLowonganService;
 use App\Core\Domain\Repository\LowonganRepository;
 
 class LowonganController extends Controller
 {
     public function __construct(
         private DaftarLowonganQueryInterface $daftarLowonganQuery,
-        private LowonganRepository $lowonganRepository
+        private LowonganRepository $lowonganRepository,
+        private UbahLowonganService $ubahLowonganService
     ) { }
 
     /**
@@ -91,5 +94,42 @@ class LowonganController extends Controller
 
         return response()->redirectTo(route('lowongan'))
             ->with('success', 'berhasil_membuat_lowongan');
+    }
+
+    /**
+     * Ubah Lowongan Action
+     */
+    public function ubahAction(Request $request) {
+        // TODO: Add authentication and check if the Dosen is the owner of the Lowongan
+        
+        $id = $request->input('id');
+        $dosenId = $request->input('dosen_id');
+        $mataKuliahId = $request->input('mata_kuliah_id');
+        $kodeKelas = $request->input('kode_kelas');
+        $gaji = $request->input('gaji');
+        $tanggal_mulai = $request->input('tanggal_mulai');
+        $tanggal_selesai = $request->input('tanggal_selesai');
+        $deskripsi = $request->input('deskripsi');
+
+        $ubahRequest = new UbahLowonganRequest(
+            $id,
+            $dosenId,
+            $mataKuliahId,
+            $kodeKelas,
+            $gaji,
+            $tanggal_mulai,
+            $tanggal_selesai,
+            $deskripsi
+        );
+
+        try {
+            $this->ubahLowonganService->execute($ubahRequest);
+        }
+        catch (Exception $e) {
+            return back()->withErrors($e->getMessage())->withInput();
+        }
+
+        return response()->redirectToRoute('lowongan')
+            ->with('success', 'berhasil_mengubah_lowongan');
     }
 }
