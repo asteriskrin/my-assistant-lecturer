@@ -10,6 +10,8 @@ use App\Core\Application\Service\BuatLowongan\BuatLowonganRequest;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganService;
 use App\Core\Application\Service\UbahLowongan\UbahLowonganRequest;
 use App\Core\Application\Service\UbahLowongan\UbahLowonganService;
+use App\Core\Application\Service\HapusLowongan\HapusLowonganRequest;
+use App\Core\Application\Service\HapusLowongan\HapusLowonganService;
 use App\Core\Domain\Repository\LowonganRepository;
 
 class LowonganController extends Controller
@@ -17,7 +19,8 @@ class LowonganController extends Controller
     public function __construct(
         private DaftarLowonganQueryInterface $daftarLowonganQuery,
         private LowonganRepository $lowonganRepository,
-        private UbahLowonganService $ubahLowonganService
+        private UbahLowonganService $ubahLowonganService,
+        private HapusLowonganService $hapusLowonganService
     ) { }
 
     /**
@@ -131,5 +134,20 @@ class LowonganController extends Controller
 
         return response()->redirectToRoute('lowongan')
             ->with('success', 'berhasil_mengubah_lowongan');
+    }
+
+    public function deleteAction(string $lowonganId) {
+        // TODO: Add authentication and check if the Dosen is the owner of the Lowongan
+
+        $hapusRequest = new HapusLowonganRequest($lowonganId);
+        try {
+            $this->hapusLowonganService->execute($hapusRequest);
+        }
+        catch (Exception $e) {
+            return back()->withErrors($e->getMessage())->withInput();
+        }
+
+        return response()->redirectToRoute('lowongan')
+            ->with('success', 'berhasil_menghapus_lowongan');
     }
 }

@@ -4,9 +4,41 @@ namespace App\Infrastructure\Repository;
 
 use App\Core\Domain\Repository\LowonganRepository;
 use App\Core\Domain\Model\Lowongan;
+use App\Core\Domain\Model\LowonganId;
+use App\Core\Domain\Model\DosenId;
+use App\Core\Domain\Model\MataKuliahId;
 use DB;
+use DateTime;
 
 class SqlServerLowonganRepository implements LowonganRepository {
+    /**
+     * Select by Id
+     */
+    public function byId(LowonganId $lowonganId) : ?Lowongan {
+        $sql = "SELECT id, dosen_id, mata_kuliah_id, kode_kelas, gaji, tanggal_mulai, tanggal_selesai, deskripsi, terbuka, created_at
+                FROM lowongan
+                WHERE id = :id";
+
+        $lowongan = DB::selectOne($sql, [
+            'id' => $lowonganId->id()
+        ]);
+
+        if ($lowongan) {
+            return new Lowongan(
+                $lowonganId,
+                new DosenId($lowongan->dosen_id),
+                new MataKuliahId($lowongan->mata_kuliah_id),
+                $lowongan->kode_kelas,
+                $lowongan->gaji,
+                new DateTime($lowongan->tanggal_mulai),
+                new DateTime($lowongan->tanggal_selesai),
+                $lowongan->deskripsi,
+                $lowongan->terbuka == 'Y' ? true : false,
+                new DateTime($lowongan->created_at)
+            );
+        }
+        return null;
+    }
     /**
      * Save Lowongan data into database.
      */
@@ -59,5 +91,15 @@ class SqlServerLowonganRepository implements LowonganRepository {
         ];
 
         DB::update($sql, $data);
+    }
+
+    /**
+     * Delete Lowongan from database.
+     */
+    public function delete(Lowongan $lowongan) : void {
+        $sql = "DELETE FROM lowongan
+                WHERE id = :id";
+        $data = ['id' => $lowongan->getId()->id()];
+        DB::delete($sql, $data);
     }
 }

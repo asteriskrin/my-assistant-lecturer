@@ -7,7 +7,14 @@
     @endif
     <ol>
     @foreach($daftar_lowongan as $dl)
-        <li>Kode Kelas: {{ $dl->kode_kelas }} - Gaji: Rp{{ $dl->gaji }} - Deskripsi: {{ $dl->deskripsi }} - <a href="{{ route('ubah-lowongan', ['lowonganId' => $dl->id]) }}">{{ __('Ubah') }}</a></li>
+        <li>
+            Kode Kelas: {{ $dl->kode_kelas }} - Gaji: Rp{{ $dl->gaji }} - Deskripsi: {{ $dl->deskripsi }} - <a href="{{ route('ubah-lowongan', ['lowonganId' => $dl->id]) }}">{{ __('Ubah') }}</a>
+            <form method="POST" action="{{ route('hapus-lowongan', ['lowonganId' => $dl->id]) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Delete</button>
+            </form>
+        </li>
     @endforeach
     </ol>
     <a href="{{ route('tambah-lowongan') }}">{{ __('Tambah Lowongan') }}</a>

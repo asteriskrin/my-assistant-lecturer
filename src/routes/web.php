@@ -25,3 +25,4 @@ Route::get('/lowongan/tambah-lowongan', [LowonganController::class, 'tambah'])->
 Route::post('/lowongan/tambah-lowongan', [LowonganController::class, 'tambahAction']);
 Route::get('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubah'])->name('ubah-lowongan');
 Route::post('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubahAction']);
+Route::delete('/lowongan/hapus-lowongan/{lowonganId:uuid}', [LowonganController::class, 'deleteAction'])->name('hapus-lowongan');
