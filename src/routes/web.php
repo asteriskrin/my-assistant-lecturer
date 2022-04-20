@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\LowonganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test', [TestController::class, 'test']);
+Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');
+Route::get('/lowongan/tambah-lowongan', [LowonganController::class, 'tambah'])->name('tambah-lowongan');
+Route::post('/lowongan/tambah-lowongan', [LowonganController::class, 'tambahAction']);
+Route::get('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubah'])->name('ubah-lowongan');
+Route::post('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubahAction']);
+Route::delete('/lowongan/hapus-lowongan/{lowonganId:uuid}', [LowonganController::class, 'deleteAction'])->name('hapus-lowongan');

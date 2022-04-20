@@ -22,12 +22,14 @@ services:
     restart: unless-stopped
     ports:
       - 3306:3306
-    volumes: 
-      - ~/apps/mysql:/var/lib/mysql
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./mysql-init-files:/docker-entrypoint-initdb.d
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=qwerty123
+      - MARIADB_ROOT_PASSWORD=qwerty123
+      - MYSQL_USER=mial_user
       - MYSQL_PASSWORD=qwerty456
-      - MYSQL_USER=root
       - MYSQL_DATABASE=mial_db
     networks:
       - mial-private-network
