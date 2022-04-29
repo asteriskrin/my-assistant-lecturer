@@ -2,6 +2,12 @@
 @section('title', 'Daftar')
 @section('content')
   <div class="container d-flex flex-column vh-100 justify-content-center align-items-center">
+    @if(session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show d-block w-50" role="alert">
+          {{ session('success') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="card w-50">
       <div class="card-body">
         <h5 class="card-title mb-4">Masuk</h5>
