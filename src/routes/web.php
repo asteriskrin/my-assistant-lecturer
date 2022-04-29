@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\RegisterController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,10 @@ Route::delete('/lowongan/hapus-lowongan/{lowonganId:uuid}', [LowonganController:
 
 Route::get('/daftar', [RegisterController::class, 'daftar']);
 Route::post('/daftar', [RegisterController::class, 'daftarAction']);
+
+Route::get('/masuk', function () {
+    return view('user.masuk');
+});
+Route::post('/masuk', function (Request $request) {
+    dd($request->all());
+});
