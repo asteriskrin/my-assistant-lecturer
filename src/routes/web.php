@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TestController;
@@ -32,9 +33,5 @@ Route::delete('/lowongan/hapus-lowongan/{lowonganId:uuid}', [LowonganController:
 Route::get('/daftar', [RegisterController::class, 'daftar']);
 Route::post('/daftar', [RegisterController::class, 'daftarAction']);
 
-Route::get('/masuk', function () {
-    return view('user.masuk');
-});
-Route::post('/masuk', function (Request $request) {
-    dd($request->all());
-});
+Route::get('/masuk', [LoginController::class, 'masuk']);
+Route::post('/masuk', [LoginController::class, 'masukAction']);
