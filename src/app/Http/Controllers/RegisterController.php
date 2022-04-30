@@ -101,7 +101,7 @@ class RegisterController extends Controller
                 nomorRekening: $validatedData['nomorRekening'],
                 nomorTelepon: $validatedData['nomorTelepon'],
                 email: $validatedData['email'],
-                password: $validatedData['password'],
+                password: Hash::make($validatedData['password']),
             );
 
             $buatMahasiswaService = new BuatMahasiswaService(
