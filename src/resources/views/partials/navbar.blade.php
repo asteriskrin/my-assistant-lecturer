@@ -7,25 +7,23 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link active {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/lowongan">Lowongan</a>
+          <a class="nav-link {{ Request::is('lowongan') ? 'active' : '' }}" href="/lowongan">Lowongan</a>
         </li>
       </ul>
       <div class="ul navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/masuk">Masuk</a>
+          <a class="nav-link {{ Request::is('masuk') ? 'active' : '' }}" href="/masuk">Masuk</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle {{ Request::is('daftar*') ? 'active' : '' }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Daftar
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="/daftar?peran=dosen">Dosen</a></li>
             <li><a class="dropdown-item" href="/daftar?peran=mahasiswa">Mahasiswa</a></li>
-            {{-- <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
           </ul>
         </li>
       </div>
