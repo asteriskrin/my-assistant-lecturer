@@ -34,4 +34,5 @@ Route::get('/daftar', [RegisterController::class, 'daftar']);
 Route::post('/daftar', [RegisterController::class, 'daftarAction']);
 
 Route::get('/masuk', [LoginController::class, 'masuk']);
-Route::post('/masuk', [LoginController::class, 'masukAction']);
+Route::post('/masuk', [LoginController::class, 'authenticate']);
+Route::post('/keluar', [LoginController::class, 'logout']);

@@ -14,6 +14,25 @@
         </li>
       </ul>
       <div class="ul navbar-nav ms-auto">
+        {{-- If authenticated --}}
+        @auth
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Selamat datang, {{ auth()->user()->nama_lengkap }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/lowongan">Lowongan</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>  
+              <form action="/keluar" method="post">
+                @csrf
+                <button type="submit" class="dropdown-item">Keluar</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        {{-- Else not authenticated --}}
+        @else
         <li class="nav-item">
           <a class="nav-link {{ Request::is('masuk') ? 'active' : '' }}" href="/masuk">Masuk</a>
         </li>
@@ -26,6 +45,7 @@
             <li><a class="dropdown-item" href="/daftar?peran=mahasiswa">Mahasiswa</a></li>
           </ul>
         </li>
+        @endauth
       </div>
     </div>
   </div>
