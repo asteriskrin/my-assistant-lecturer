@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 Route::get('/test', [TestController::class, 'test']);
 Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');

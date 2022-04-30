@@ -15,36 +15,61 @@
         <form action="/daftar" method="post">
           @csrf
           <!-- Nama Lengkap -->
-          <div class="form-floating mb-3">
-            <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" placeholder="Nama Lengkap" required>
+          <div class="form-floating">
+            <input type="text" name="namaLengkap" class="form-control @error('namaLengkap') is-invalid @enderror" id="namaLengkap" placeholder="Nama Lengkap" required value="{{ old('namaLengkap') }}">
             <label for="namaLengkap">Nama Lengkap</label>
           </div>
+          @error('namaLengkap')
+            <div class="invalid-feedback d-block">
+              {{ $message }}
+            </div>
+          @enderror
 
           <!-- NIP -->
-          <div class="form-floating mb-3">
-            <input type="text" name="nip" class="form-control" id="nip" placeholder="NIP" required>
+          <div class="form-floating mt-3">
+            <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" id="nip" placeholder="NIP" required value="{{ old('nip') }}">
             <label for="nip">NIP</label>
           </div>
+          @error('nip')
+            <div class="invalid-feedback d-block">
+              {{ $message }}
+            </div>
+          @enderror
 
           <!-- Nomor Telepon -->
-          <div class="form-floating mb-3">
-            <input type="text" name="nomorTelepon" class="form-control" id="nomorTelepon" placeholder="Nomor Telepon" required>
+          <div class="form-floating mt-3">
+            <input type="text" name="nomorTelepon" class="form-control @error('nomorTelepon') is-invalid @enderror" id="nomorTelepon" placeholder="Nomor Telepon" required value="{{ old('nomorTelepon') }}">
             <label for="nomorTelepon">Nomor Telepon</label>
           </div>
+          @error('nomorTelepon')
+            <div class="invalid-feedback d-block">
+              {{ $message }}
+            </div>
+          @enderror
 
           <!-- Email -->
-          <div class="form-floating mb-3">
-            <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+          <div class="form-floating mt-3">
+            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Email" required value="{{ old('email') }}">
             <label for="email">Email</label>
           </div>
+          @error('email')
+            <div class="invalid-feedback d-block">
+              {{ $message }}
+            </div>
+          @enderror
 
           <!-- Password -->
-          <div class="form-floating mb-3">
-            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+          <div class="form-floating mt-3">
+            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password" required>
             <label for="password">Password</label>
           </div>
+          @error('password')
+            <div class="invalid-feedback d-block">
+              {{ $message }}
+            </div>
+          @enderror
 
-          <div class="row g-2">
+          <div class="row mt-3">
             <div class="col-md d-flex align-items-center justify-content-md-start justify-content-center">
               <!-- Masuk -->
               <a href="/masuk" class="link-primary text-decoration-none">Masuk</a>
