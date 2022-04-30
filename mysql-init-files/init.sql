@@ -12,6 +12,7 @@ CREATE TABLE user (
     nomor_telepon VARCHAR(20) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(129) NOT NULL,
+    remember_token VARCHAR(100),
     created_at DATETIME NOT NULL DEFAULT NOW()
 );
 
