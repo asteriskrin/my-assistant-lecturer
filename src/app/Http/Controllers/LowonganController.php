@@ -56,16 +56,21 @@ class LowonganController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function ubah($lowonganId) {
-        // TODO: Add authentication and check if the Dosen is the owner of the Lowongan
+        // TODO: Add authentication
 
         $lowongan = $this->daftarLowonganQuery->byId($lowonganId);
-
+        
         if (!$lowongan) {
             return abort(404);
         }
 
+        if (auth()->user()->id != $lowongan->dosen_id) return abort(403);
+
+        $daftar_mata_kuliah = $this->daftarMataKuliahQuery->execute();
+        
         return view('lowongan.ubah', [
-            'lowongan' => $lowongan
+            'lowongan' => $lowongan,
+            'daftar_mata_kuliah' => $daftar_mata_kuliah
         ]);
     }
 
@@ -106,11 +111,19 @@ class LowonganController extends Controller
     /**
      * Ubah Lowongan Action
      */
-    public function ubahAction(Request $request) {
+    public function ubahAction(string $lowonganId, Request $request) {
         // TODO: Add authentication and check if the Dosen is the owner of the Lowongan
-        
-        $id = $request->input('id');
-        $dosenId = $request->input('dosen_id');
+
+        $lowongan = $this->daftarLowonganQuery->byId($lowonganId);
+
+        if (!$lowongan) {
+            return abort(404);
+        }
+
+        if (auth()->user()->id != $lowongan->dosen_id) return abort(403);
+
+        $id = $lowongan->id;
+        $dosenId = $lowongan->dosen_id;
         $mataKuliahId = $request->input('mata_kuliah_id');
         $kodeKelas = $request->input('kode_kelas');
         $gaji = $request->input('gaji');
