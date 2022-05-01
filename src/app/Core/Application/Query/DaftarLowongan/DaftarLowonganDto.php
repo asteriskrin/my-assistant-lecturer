@@ -12,6 +12,7 @@ class DaftarLowonganDto {
         public string $tanggal_mulai,
         public string $tanggal_selesai,
         public string $deskripsi,
-        public bool $terbuka
+        public bool $terbuka,
+        public string $mata_kuliah_nama
     ) { }
 }

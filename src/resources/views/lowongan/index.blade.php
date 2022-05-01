@@ -13,7 +13,7 @@
     @foreach($daftar_lowongan as $dl)
         <div class="card mt-3">
             <div class="card-body">
-                <h5 class="card-title">NAMA_MATA_KULIAH {{ $dl->kode_kelas }}</h5>
+                <h5 class="card-title">{{ $dl->mata_kuliah_nama }} {{ $dl->kode_kelas }}</h5>
                 <p>{{ __('Gaji') }}: Rp{{ $dl->gaji }}</p>
                 <p>{{ $dl->deskripsi }}</p>
                 @if (auth()->user()->id == $dl->dosen_id)
