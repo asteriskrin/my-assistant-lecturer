@@ -6,12 +6,13 @@ CREATE TABLE user (
     nim VARCHAR(24),
     nip VARCHAR(24),
     url_transkrip_mk VARCHAR(2048),
-    ipk FLOAT NOT NULL DEFAULT 0.0,
-    semester INT NOT NULL DEFAULT 1,
+    ipk FLOAT DEFAULT 0.0,
+    semester INT DEFAULT 1,
     nomor_rekening VARCHAR(20),
-    nomor_telepon VARCHAR(20),
+    nomor_telepon VARCHAR(20) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(129) NOT NULL,
+    remember_token VARCHAR(100),
     created_at DATETIME NOT NULL DEFAULT NOW()
 );
 
