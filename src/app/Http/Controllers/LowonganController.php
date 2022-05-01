@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Core\Domain\Model\Lowongan;
 use DateTime;
+use App\Core\Application\Query\DaftarMataKuliah\DaftarMataKuliahQueryInterface;
 use App\Core\Application\Query\DaftarLowongan\DaftarLowonganQueryInterface;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganRequest;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganService;
@@ -18,6 +19,7 @@ class LowonganController extends Controller
 {
     public function __construct(
         private DaftarLowonganQueryInterface $daftarLowonganQuery,
+        private DaftarMataKuliahQueryInterface $daftarMataKuliahQuery,
         private LowonganRepository $lowonganRepository,
         private UbahLowonganService $ubahLowonganService,
         private HapusLowonganService $hapusLowonganService
@@ -42,8 +44,10 @@ class LowonganController extends Controller
      */
     public function tambah() {
         // TODO: Add authentication
-
-        return view('lowongan.tambah');
+        $daftar_mata_kuliah = $this->daftarMataKuliahQuery->execute();
+        return view('lowongan.tambah', [
+            'daftar_mata_kuliah' => $daftar_mata_kuliah
+        ]);
     }
 
     /**
@@ -71,7 +75,7 @@ class LowonganController extends Controller
     public function tambahAction(Request $request) {
         // TODO: Add authentication
 
-        $dosenId = $request->input('dosen_id');
+        $dosenId = auth()->user()->id;
         $mataKuliahId = $request->input('mata_kuliah_id');
         $kodeKelas = $request->input('kode_kelas');
         $gaji = $request->input('gaji');
