@@ -112,7 +112,7 @@ class LowonganController extends Controller
      * Ubah Lowongan Action
      */
     public function ubahAction(string $lowonganId, Request $request) {
-        // TODO: Add authentication and check if the Dosen is the owner of the Lowongan
+        // TODO: Add authentication
 
         $lowongan = $this->daftarLowonganQuery->byId($lowonganId);
 
@@ -154,7 +154,15 @@ class LowonganController extends Controller
     }
 
     public function deleteAction(string $lowonganId) {
-        // TODO: Add authentication and check if the Dosen is the owner of the Lowongan
+        // TODO: Add authentication
+
+        $lowongan = $this->daftarLowonganQuery->byId($lowonganId);
+
+        if (!$lowongan) {
+            return abort(404);
+        }
+
+        if (auth()->user()->id != $lowongan->dosen_id) return abort(403);
 
         $hapusRequest = new HapusLowonganRequest($lowonganId);
         try {
