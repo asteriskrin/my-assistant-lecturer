@@ -9,10 +9,12 @@ use App\Core\Domain\Model\LowonganId;
 use App\Core\Domain\Model\MahasiswaId;
 use App\Core\Application\Service\BuatLamaran\BuatLamaranRequest;
 use App\Core\Application\Service\BuatLamaran\BuatLamaranService;
+use App\Core\Application\Query\DaftarLamaran\DaftarLamaranQueryInterface;
 
 class AsistenDosenController extends Controller
 {
     public function __construct(
+        private DaftarLamaranQueryInterface $daftarLamaranQuery,
         private LowonganRepository $lowonganRepository,
         private AsistenDosenRepository $asistenDosenRepository,
         private BuatLamaranService $buatLamaranService
@@ -44,5 +46,12 @@ class AsistenDosenController extends Controller
 
         return response()->redirectToRoute('lowongan')
             ->with('success', 'berhasil_melamar_ke_lowongan');
+    }
+
+    public function index() {
+        $daftar_lamaran = $this->daftarLamaranQuery->execute(auth()->user()->id);
+        return view('lamaran.index', [
+            'daftar_lamaran' => $daftar_lamaran
+        ]);
     }
 }

@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function() {
     });
     Route::middleware('mahasiswa')->group(function () {
         Route::post('/lowongan/lamar/{lowonganId:uuid}', [AsistenDosenController::class, 'lamar'])->name('lamar');
+        Route::get('/lowongan/lamaran', [AsistenDosenController::class, 'index'])->name('lamaran');
     });
     Route::post('/keluar', [LoginController::class, 'logout']);
 });
