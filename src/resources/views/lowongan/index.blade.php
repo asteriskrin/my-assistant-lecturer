@@ -24,6 +24,7 @@
                 <h5 class="card-title">{{ $dl->mata_kuliah_nama }} {{ $dl->kode_kelas }}</h5>
                 <p>{{ __('Gaji') }}: Rp{{ $dl->gaji }}</p>
                 <p>{{ $dl->deskripsi }}</p>
+                <a href="{{ route('detail-lowongan', ['lowonganId' => $dl->id]) }}" class="btn btn-primary    ">{{ __('Lihat Detail') }}</a>
                 @if (auth()->check() && auth()->user()->id == $dl->dosen_id)
                 <a href="{{ route('ubah-lowongan', ['lowonganId' => $dl->id]) }}" class="btn btn-primary    ">{{ __('Ubah') }}</a>
                 <form method="POST" action="{{ route('hapus-lowongan', ['lowonganId' => $dl->id]) }}">

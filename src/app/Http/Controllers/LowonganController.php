@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Domain\Model\Lowongan;
+use App\Core\Domain\Model\LowonganId;
 use DateTime;
 use App\Core\Application\Query\DaftarMataKuliah\DaftarMataKuliahQueryInterface;
 use App\Core\Application\Query\DaftarLowongan\DaftarLowonganQueryInterface;
+use App\Core\Application\Query\DaftarPelamar\DaftarPelamarQueryInterface;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganRequest;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganService;
 use App\Core\Application\Service\UbahLowongan\UbahLowonganRequest;
@@ -14,13 +16,18 @@ use App\Core\Application\Service\UbahLowongan\UbahLowonganService;
 use App\Core\Application\Service\HapusLowongan\HapusLowonganRequest;
 use App\Core\Application\Service\HapusLowongan\HapusLowonganService;
 use App\Core\Domain\Repository\LowonganRepository;
+use App\Core\Domain\Repository\MataKuliahRepository;
+use App\Core\Domain\Repository\DosenRepository;
 
 class LowonganController extends Controller
 {
     public function __construct(
         private DaftarLowonganQueryInterface $daftarLowonganQuery,
         private DaftarMataKuliahQueryInterface $daftarMataKuliahQuery,
+        private DaftarPelamarQueryInterface $daftarPelamarQuery,
         private LowonganRepository $lowonganRepository,
+        private MataKuliahRepository $mataKuliahRepository,
+        private DosenRepository $dosenRepository,
         private UbahLowonganService $ubahLowonganService,
         private HapusLowonganService $hapusLowonganService
     ) { }
@@ -34,6 +41,24 @@ class LowonganController extends Controller
         $daftar_lowongan = $this->daftarLowonganQuery->execute();
         return view('lowongan.index', [
             'daftar_lowongan' => $daftar_lowongan
+        ]);
+    }
+
+    /**
+     * Show detail lowongan page.
+     */
+    public function detail(string $lowonganId) {
+        $lowonganId = new LowonganId($lowonganId);
+        $lowongan = $this->lowonganRepository->byId($lowonganId);
+        if (!$lowongan) return abort(404);
+        $mataKuliah = $this->mataKuliahRepository->byId($lowongan->getMataKuliahId());
+        $dosen = $this->dosenRepository->byId($lowongan->getDosenId());
+        $daftar_pelamar = $this->daftarPelamarQuery->execute($lowonganId->id());
+        return view('lowongan.detail', [
+            'lowongan' => $lowongan,
+            'mataKuliah' => $mataKuliah,
+            'dosen' => $dosen,
+            'daftar_pelamar' => $daftar_pelamar
         ]);
     }
 

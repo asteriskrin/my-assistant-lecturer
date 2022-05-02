@@ -25,6 +25,7 @@ Route::get('/', function () {
 })->name('home');
 Route::get('/test', [TestController::class, 'test']);
 Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');
+Route::get('/lowongan/{lowonganId:uuid}', [LowonganController::class, 'detail'])->name('detail-lowongan');
 Route::middleware('auth')->group(function() {
     Route::middleware('dosen')->group(function () {
         Route::get('/lowongan/tambah-lowongan', [LowonganController::class, 'tambah'])->name('tambah-lowongan');
