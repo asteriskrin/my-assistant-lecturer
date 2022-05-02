@@ -4,8 +4,14 @@
 @section('content')
 <div class="container">
     @if(session('success'))
-        <div class="alert alert-danger alert-dismissible fade show d-block" role="alert">
+        <div class="alert alert-success alert-dismissible fade show d-block" role="alert">
             {{ ucfirst(str_replace('_', ' ', session('success'))) . '.' }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if(session('failed'))
+        <div class="alert alert-danger alert-dismissible fade show d-block" role="alert">
+            {{ ucfirst(str_replace('_', ' ', session('failed'))) . '.' }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
@@ -22,6 +28,12 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                @endif
+                @if (auth()->user()->nim)
+                <form method="POST" action="{{ route('lamar', ['lowonganId' => $dl->id]) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Lamar</button>
                 </form>
                 @endif
             </div>
