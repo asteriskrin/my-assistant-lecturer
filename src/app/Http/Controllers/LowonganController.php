@@ -16,6 +16,8 @@ use App\Core\Application\Service\UbahLowongan\UbahLowonganRequest;
 use App\Core\Application\Service\UbahLowongan\UbahLowonganService;
 use App\Core\Application\Service\HapusLowongan\HapusLowonganRequest;
 use App\Core\Application\Service\HapusLowongan\HapusLowonganService;
+use App\Core\Application\Service\TutupLowongan\TutupLowonganRequest;
+use App\Core\Application\Service\TutupLowongan\TutupLowonganService;
 use App\Core\Domain\Repository\LowonganRepository;
 use App\Core\Domain\Repository\MataKuliahRepository;
 use App\Core\Domain\Repository\DosenRepository;
@@ -31,7 +33,8 @@ class LowonganController extends Controller
         private MataKuliahRepository $mataKuliahRepository,
         private DosenRepository $dosenRepository,
         private UbahLowonganService $ubahLowonganService,
-        private HapusLowonganService $hapusLowonganService
+        private HapusLowonganService $hapusLowonganService,
+        private TutupLowonganService $tutupLowonganService
     ) { }
 
     /**
@@ -212,5 +215,22 @@ class LowonganController extends Controller
 
         return response()->redirectToRoute('lowongan')
             ->with('success', 'berhasil_menghapus_lowongan');
+    }
+
+    public function tutupAction(string $lowonganId) {
+        $lowonganId = new LowonganId($lowonganId);
+        $lowongan = $this->lowonganRepository->byId($lowonganId);
+        if (!$lowongan) return abort(404);
+        if (auth()->user()->id != $lowongan->getDosenId()->id()) return abort(403);
+
+        $tutupRequest = new TutupLowonganRequest($lowonganId->id());
+        try {
+            $this->tutupLowonganService->execute($tutupRequest);
+        }
+        catch (Exception $e) {
+            return back()->withErrors($e->getMessage())->withInput();
+        }
+        return response()->redirectToRoute('detail-lowongan', ['lowonganId' => $lowonganId->id()])
+            ->with('success', 'berhasil_menutup_lowongan');
     }
 }

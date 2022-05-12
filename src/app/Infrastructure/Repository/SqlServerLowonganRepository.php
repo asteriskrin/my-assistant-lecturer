@@ -62,11 +62,12 @@ class SqlServerLowonganRepository implements LowonganRepository {
                 'tanggal_mulai' => $lowongan->getTanggalMulai()->format('y-m-d'),
                 'tanggal_selesai' => $lowongan->getTanggalSelesai()->format('y-m-d'),
                 'deskripsi' => $lowongan->getDeskripsi(),
+                'terbuka' => $lowongan->getTerbuka() ? 'Y' : 'N',
                 'created_at' => $lowongan->getCreatedAt()->format('y-m-d')
             ];
             
-            $sql = "INSERT INTO lowongan (id, dosen_id, mata_kuliah_id, kode_kelas, gaji, tanggal_mulai, tanggal_selesai, deskripsi, created_at)
-                VALUES (:id, :dosen_id, :mata_kuliah_id, :kode_kelas, :gaji, :tanggal_mulai, :tanggal_selesai, :deskripsi, :created_at)";
+            $sql = "INSERT INTO lowongan (id, dosen_id, mata_kuliah_id, kode_kelas, gaji, tanggal_mulai, tanggal_selesai, deskripsi, terbuka, created_at)
+                VALUES (:id, :dosen_id, :mata_kuliah_id, :kode_kelas, :gaji, :tanggal_mulai, :tanggal_selesai, :deskripsi, :terbuka, :created_at)";
 
             DB::insert($sql, $data);
         }
@@ -76,7 +77,7 @@ class SqlServerLowonganRepository implements LowonganRepository {
      */
     public function update(Lowongan $lowongan) : void {
         $sql = "UPDATE lowongan
-                SET dosen_id = :dosen_id, mata_kuliah_id = :mata_kuliah_id, kode_kelas = :kode_kelas, gaji = :gaji, tanggal_mulai = :tanggal_mulai, tanggal_selesai = :tanggal_selesai, deskripsi = :deskripsi
+                SET dosen_id = :dosen_id, mata_kuliah_id = :mata_kuliah_id, kode_kelas = :kode_kelas, gaji = :gaji, tanggal_mulai = :tanggal_mulai, tanggal_selesai = :tanggal_selesai, deskripsi = :deskripsi, terbuka = :terbuka
                 WHERE id = :id";
         
         $data = [
@@ -87,7 +88,8 @@ class SqlServerLowonganRepository implements LowonganRepository {
             'gaji' => $lowongan->getGaji(),
             'tanggal_mulai' => $lowongan->getTanggalMulai()->format('y-m-d'),
             'tanggal_selesai' => $lowongan->getTanggalSelesai()->format('y-m-d'),
-            'deskripsi' => $lowongan->getDeskripsi()
+            'deskripsi' => $lowongan->getDeskripsi(),
+            'terbuka' => $lowongan->getTerbuka() ? 'Y' : 'N',
         ];
 
         DB::update($sql, $data);

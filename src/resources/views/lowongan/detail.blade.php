@@ -26,6 +26,17 @@
     <p>{{ $dosen->getNamaLengkap() }}</p>
     <p>{{ __('Periode') }}</p>
     <p>{{ $lowongan->getTanggalMulai()->format('d M Y') }} s/d {{ $lowongan->getTanggalSelesai()->format('d M Y') }}</p>
+    @if ($lowongan->getTerbuka())
+        <div class="alert alert-success">{{ __('Lowongan Terbuka') }}</div>
+        @if (auth()->check() && auth()->user()->id == $lowongan->getDosenId()->id())
+        <form method="POST" action="{{ route('tutup-lowongan', ['lowonganId' => $lowongan->getId()->id()]) }}">
+            @csrf
+            <button type="submit" class="btn btn-danger">Tutup Lowongan</button>
+        </form>
+        @endif
+    @else
+        <div class="alert alert-danger">{{ __('Lowongan ini sudah ditutup.') }}</div>
+    @endif
     <h2>Daftar Pelamar</h2>
     <table class="table">
         <thead>
