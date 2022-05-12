@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Application\Query\DaftarLowongan;
+namespace App\Core\Application\Query\DaftarLowonganByDosen;
 
-class DaftarLowonganDto {
+class DaftarLowonganByDosenDto {
     public function __construct(
         public string $id,
         public string $dosen_id,

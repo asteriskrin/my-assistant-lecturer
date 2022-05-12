@@ -1,6 +1,6 @@
 {{-- This is slave template --}}
 @extends('layouts.app')
-@section('title', 'Daftar Lowongan')
+@section('title', 'Daftar LowonganKu')
 @section('content')
 <div class="container">
     @if(session('success'))

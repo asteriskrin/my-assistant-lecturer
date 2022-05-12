@@ -9,7 +9,7 @@ use DateTime;
 
 class SqlDaftarLowonganQuery implements DaftarLowonganQueryInterface {
     public function execute() : array {
-        $sql = "SELECT l.id, l.dosen_id, l.mata_kuliah_id, l.kode_kelas, l.gaji, l.tanggal_mulai, l.tanggal_selesai, l.deskripsi, l.terbuka 
+        $sql = "SELECT l.id, l.dosen_id, l.mata_kuliah_id, l.kode_kelas, l.gaji, l.tanggal_mulai, l.tanggal_selesai, l.deskripsi, l.terbuka, mk.nama as mata_kuliah_nama 
             FROM lowongan l
             INNER JOIN mata_kuliah mk ON mk.id = l.mata_kuliah_id
             INNER JOIN user u ON u.id = l.dosen_id
@@ -30,7 +30,8 @@ class SqlDaftarLowonganQuery implements DaftarLowonganQueryInterface {
                 tanggal_mulai: date_format(new DateTime($lowongan->tanggal_mulai), "Y-m-d"),
                 tanggal_selesai: date_format(new DateTime($lowongan->tanggal_selesai), "Y-m-d"),
                 deskripsi: $lowongan->deskripsi,
-                terbuka: $lowongan->terbuka
+                terbuka: $lowongan->terbuka,
+                mata_kuliah_nama: $lowongan->mata_kuliah_nama
             );
         }
 
@@ -38,9 +39,12 @@ class SqlDaftarLowonganQuery implements DaftarLowonganQueryInterface {
     }
 
     public function byId(string $lowongan_id) : ?DaftarLowonganDto {
-        $sql = "SELECT id, dosen_id, mata_kuliah_id, kode_kelas, gaji, tanggal_mulai, tanggal_selesai, deskripsi, terbuka, created_at
-                FROM lowongan
-                WHERE id = :lowongan_id";
+        $sql = "SELECT l.id, l.dosen_id, l.mata_kuliah_id, l.kode_kelas, l.gaji, l.tanggal_mulai, l.tanggal_selesai, l.deskripsi, l.terbuka, mk.nama as mata_kuliah_nama 
+            FROM lowongan l
+            INNER JOIN mata_kuliah mk ON mk.id = l.mata_kuliah_id
+            INNER JOIN user u ON u.id = l.dosen_id
+            WHERE l.id = :lowongan_id
+            ";
 
         $result = DB::select($sql, [
             'lowongan_id' => $lowongan_id
@@ -56,7 +60,8 @@ class SqlDaftarLowonganQuery implements DaftarLowonganQueryInterface {
                 tanggal_mulai: date_format(new DateTime($result[0]->tanggal_mulai), "Y-m-d"),
                 tanggal_selesai: date_format(new DateTime($result[0]->tanggal_selesai), "Y-m-d"),
                 deskripsi: $result[0]->deskripsi,
-                terbuka: $result[0]->terbuka == 'Y' ? true : false
+                terbuka: $result[0]->terbuka == 'Y' ? true : false,
+                mata_kuliah_nama: $result[0]->mata_kuliah_nama
             );
         }
         return null;

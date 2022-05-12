@@ -12,6 +12,17 @@
         <li class="nav-item">
           <a class="nav-link {{ Request::is('lowongan') ? 'active' : '' }}" href="/lowongan">Lowongan</a>
         </li>
+        @auth
+        @if (auth()->user()->nim)
+        <li class="nav-item">
+          <a class="nav-link {{ Request::route()->getName() == 'lamaran' ? 'active' : '' }}" href="{{ route('lamaran') }}">{{ __('Lamaranku') }}</a>
+        </li>
+        @elseif (auth()->user()->nip)
+        <li class="nav-item">
+          <a class="nav-link {{ Request::route()->getName() == 'lowonganku' ? 'active' : '' }}" href="{{ route('lowonganku') }}">{{ __('Lowonganku') }}</a>
+        </li>
+        @endif
+        @endauth
       </ul>
       <div class="ul navbar-nav ms-auto">
         {{-- If authenticated --}}

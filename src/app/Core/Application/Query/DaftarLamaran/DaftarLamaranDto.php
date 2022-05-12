@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Application\Query\DaftarLowongan;
+namespace App\Core\Application\Query\DaftarLamaran;
 
-class DaftarLowonganDto {
+class DaftarLamaranDto {
     public function __construct(
         public string $id,
         public string $dosen_id,
@@ -13,6 +13,9 @@ class DaftarLowonganDto {
         public string $tanggal_selesai,
         public string $deskripsi,
         public bool $terbuka,
-        public string $mata_kuliah_nama
+        public string $mata_kuliah_nama,
+        public bool $lamaran_diterima,
+        public bool $lamaran_dibayar,
+        public string $lamaran_created_at
     ) { }
 }

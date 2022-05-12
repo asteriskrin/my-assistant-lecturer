@@ -80,7 +80,15 @@ class Lowongan {
         return $this->deskripsi;
     }
 
+    public function getTerbuka() : bool {
+        return $this->terbuka;
+    }
+
     public function getCreatedAt() : DateTime {
         return $this->created_at;
+    }
+
+    public function setTerbuka(bool $terbuka) : void {
+        $this->terbuka = $terbuka;
     }
 }
