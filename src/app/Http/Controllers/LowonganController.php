@@ -8,6 +8,7 @@ use App\Core\Domain\Model\LowonganId;
 use DateTime;
 use App\Core\Application\Query\DaftarMataKuliah\DaftarMataKuliahQueryInterface;
 use App\Core\Application\Query\DaftarLowongan\DaftarLowonganQueryInterface;
+use App\Core\Application\Query\DaftarLowonganByDosen\DaftarLowonganByDosenQueryInterface;
 use App\Core\Application\Query\DaftarPelamar\DaftarPelamarQueryInterface;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganRequest;
 use App\Core\Application\Service\BuatLowongan\BuatLowonganService;
@@ -23,6 +24,7 @@ class LowonganController extends Controller
 {
     public function __construct(
         private DaftarLowonganQueryInterface $daftarLowonganQuery,
+        private DaftarLowonganByDosenQueryInterface $daftarLowonganByDosenQuery,
         private DaftarMataKuliahQueryInterface $daftarMataKuliahQuery,
         private DaftarPelamarQueryInterface $daftarPelamarQuery,
         private LowonganRepository $lowonganRepository,
@@ -40,6 +42,17 @@ class LowonganController extends Controller
     public function index() {
         $daftar_lowongan = $this->daftarLowonganQuery->execute();
         return view('lowongan.index', [
+            'daftar_lowongan' => $daftar_lowongan
+        ]);
+    }
+
+    /**
+     * Show a list of Lowongan which was created by the user (Dosen)
+     */
+    public function lowonganku() {
+        $dosen_id = auth()->user()->id;
+        $daftar_lowongan = $this->daftarLowonganByDosenQuery->execute($dosen_id);
+        return view('lowongan.lowonganku', [
             'daftar_lowongan' => $daftar_lowongan
         ]);
     }

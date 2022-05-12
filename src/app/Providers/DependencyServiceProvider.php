@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Core\Application\Query\DaftarMataKuliah\DaftarMataKuliahQueryInterface;
 use App\Core\Application\Query\DaftarLowongan\DaftarLowonganQueryInterface;
+use App\Core\Application\Query\DaftarLowonganByDosen\DaftarLowonganByDosenQueryInterface;
 use App\Core\Application\Query\DaftarLamaran\DaftarLamaranQueryInterface;
 use App\Core\Application\Query\DaftarPelamar\DaftarPelamarQueryInterface;
 use App\Core\Domain\Repository\DosenRepository;
@@ -13,6 +14,7 @@ use App\Core\Domain\Repository\MahasiswaRepository;
 use App\Core\Domain\Repository\AsistenDosenRepository;
 use App\Core\Domain\Repository\MataKuliahRepository;
 use App\Infrastructure\Query\SqlDaftarLowonganQuery;
+use App\Infrastructure\Query\SqlDaftarLowonganByDosenQuery;
 use App\Infrastructure\Query\SqlDaftarMataKuliahQuery;
 use App\Infrastructure\Query\SqlDaftarLamaranQuery;
 use App\Infrastructure\Query\SqlDaftarPelamarQuery;
@@ -28,6 +30,7 @@ class DependencyServiceProvider extends ServiceProvider
     {
         // Query
         $this->app->bind(DaftarLowonganQueryInterface::class, SqlDaftarLowonganQuery::class);
+        $this->app->bind(DaftarLowonganByDosenQueryInterface::class, SqlDaftarLowonganByDosenQuery::class);
         $this->app->bind(DaftarMataKuliahQueryInterface::class, SqlDaftarMataKuliahQuery::class);
         $this->app->bind(DaftarLamaranQueryInterface::class, SqlDaftarLamaranQuery::class);
         $this->app->bind(DaftarPelamarQueryInterface::class, SqlDaftarPelamarQuery::class);

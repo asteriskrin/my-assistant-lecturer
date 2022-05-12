@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function() {
         Route::get('/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubah'])->name('ubah-lowongan');
         Route::post('/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubahAction']);
         Route::delete('/hapus-lowongan/{lowonganId:uuid}', [LowonganController::class, 'deleteAction'])->name('hapus-lowongan');
+        Route::get('/lowonganku', [LowonganController::class, 'lowonganku'])->name('lowonganku');
     });
     Route::middleware('mahasiswa')->group(function () {
         Route::post('/lowongan/lamar/{lowonganId:uuid}', [AsistenDosenController::class, 'lamar'])->name('lamar');
