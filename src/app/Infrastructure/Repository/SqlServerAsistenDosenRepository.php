@@ -42,4 +42,19 @@ class SqlServerAsistenDosenRepository implements AsistenDosenRepository
         ];
         return DB::table('asisten_dosen')->insert($values);
     }
+    /**
+     * Update data Asisten Dosen
+     */
+    public function update(AsistenDosen $asistenDosen): void {
+        $data = [
+            'mahasiswa_id' => $asistenDosen->getMahasiswaId()->id(),
+            'lowongan_id' => $asistenDosen->getLowonganId()->id(),
+            'diterima' => $asistenDosen->getDiterima() ? 'Y' : 'N',
+            'dibayar' => $asistenDosen->getDibayar() ? 'Y' : 'N',
+        ];
+        $sql = "UPDATE asisten_dosen 
+            SET diterima = :diterima, dibayar = :dibayar 
+            WHERE mahasiswa_id = :mahasiswa_id AND lowongan_id = :lowongan_id";
+        DB::update($sql, $data);
+    }
 }

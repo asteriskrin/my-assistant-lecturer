@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function() {
         Route::post('/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubahAction']);
         Route::delete('/hapus-lowongan/{lowonganId:uuid}', [LowonganController::class, 'deleteAction'])->name('hapus-lowongan');
         Route::post('tutup-lowongan/{lowonganId:uuid}', [LowonganController::class, 'tutupAction'])->name('tutup-lowongan');
+        Route::get('ubah-status-pelamar/{lowonganId:uuid}:{mahasiswaId:uuid}', [AsistenDosenController::class, 'ubahStatusPelamar'])->name('ubah-status-pelamar');
+        Route::post('ubah-status-pelamar/{lowonganId:uuid}:{mahasiswaId:uuid}', [AsistenDosenController::class, 'ubahStatusPelamarAction']);
         Route::get('/lowonganku', [LowonganController::class, 'lowonganku'])->name('lowonganku');
     });
     Route::middleware('mahasiswa')->group(function () {

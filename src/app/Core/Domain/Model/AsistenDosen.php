@@ -33,4 +33,6 @@ class AsistenDosen
     public function getDiterima(): bool { return $this->diterima; }
     public function getDibayar(): bool { return $this->dibayar; }
     public function getCreatedAt(): DateTime { return $this->created_at; }
+    public function setDiterima(bool $diterima): void { $this->diterima = $diterima; }
+    public function setDibayar(bool $dibayar): void { $this->dibayar = $dibayar; }
 }

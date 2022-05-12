@@ -45,6 +45,7 @@
                 <th scope="col">{{ __('Tanggal') }}</th>
                 <th scope="col">{{ __('Nama') }}</th>
                 <th scope="col">{{ __('Status') }}</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -53,7 +54,8 @@
                 <th scope="row">{{ $loop->index + 1 }}</th>
                 <td>{{ $dp->tanggal_melamar }}</td>
                 <td>{{ $dp->nama_lengkap }}</td>
-                <td>{{ $dp->diterima ? 'Diterima' : 'Pending' }}</td>
+                <td>{{ $dp->diterima ? 'Diterima' : ($lowongan->getTerbuka() ? 'Pending' : 'Tidak diterima') }}</td>
+                <td><a href="{{ route('ubah-status-pelamar', ['lowonganId' => $lowongan->getId()->id(), 'mahasiswaId' => $dp->user_id]) }}" class="btn btn-primary btn-sm" onclick="ubah({{ $loop->index }})">{{ __('Ubah') }}</a></td>
             </tr>
             @endforeach
         </tbody>
