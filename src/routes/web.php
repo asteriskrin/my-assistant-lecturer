@@ -28,15 +28,15 @@ Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');
 Route::get('/lowongan/{lowonganId:uuid}', [LowonganController::class, 'detail'])->name('detail-lowongan');
 Route::middleware('auth')->group(function() {
     Route::middleware('dosen')->group(function () {
-        Route::get('/lowongan/tambah-lowongan', [LowonganController::class, 'tambah'])->name('tambah-lowongan');
-        Route::post('/lowongan/tambah-lowongan', [LowonganController::class, 'tambahAction']);
-        Route::get('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubah'])->name('ubah-lowongan');
-        Route::post('/lowongan/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubahAction']);
-        Route::delete('/lowongan/hapus-lowongan/{lowonganId:uuid}', [LowonganController::class, 'deleteAction'])->name('hapus-lowongan');
+        Route::get('/tambah-lowongan', [LowonganController::class, 'tambah'])->name('tambah-lowongan');
+        Route::post('/tambah-lowongan', [LowonganController::class, 'tambahAction']);
+        Route::get('/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubah'])->name('ubah-lowongan');
+        Route::post('/ubah-lowongan/{lowonganId:uuid}', [LowonganController::class, 'ubahAction']);
+        Route::delete('/hapus-lowongan/{lowonganId:uuid}', [LowonganController::class, 'deleteAction'])->name('hapus-lowongan');
     });
     Route::middleware('mahasiswa')->group(function () {
         Route::post('/lowongan/lamar/{lowonganId:uuid}', [AsistenDosenController::class, 'lamar'])->name('lamar');
-        Route::get('/lowongan/lamaran', [AsistenDosenController::class, 'index'])->name('lamaran');
+        Route::get('/lamaranku', [AsistenDosenController::class, 'index'])->name('lamaran');
     });
     Route::post('/keluar', [LoginController::class, 'logout']);
 });
