@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function() {
         Route::get('ubah-status-pelamar/{lowonganId:uuid}:{mahasiswaId:uuid}', [AsistenDosenController::class, 'ubahStatusPelamar'])->name('ubah-status-pelamar');
         Route::post('ubah-status-pelamar/{lowonganId:uuid}:{mahasiswaId:uuid}', [AsistenDosenController::class, 'ubahStatusPelamarAction']);
         Route::get('/lowonganku', [LowonganController::class, 'lowonganku'])->name('lowonganku');
+        Route::get('/mahasiswa/{mahasiswaId:uuid}/detail', [AsistenDosenController::class, 'lihatDetailMahasiswa'])->name('detail-mahasiswa');
     });
     Route::middleware('mahasiswa')->group(function () {
         Route::post('/lowongan/lamar/{lowonganId:uuid}', [AsistenDosenController::class, 'lamar'])->name('lamar');

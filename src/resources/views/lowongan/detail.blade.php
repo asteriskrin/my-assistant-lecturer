@@ -56,6 +56,7 @@
                 <td>{{ $dp->nama_lengkap }}</td>
                 <td>{{ $dp->diterima ? 'Diterima' : ($lowongan->getTerbuka() ? 'Pending' : 'Tidak diterima') }}</td>
                 <td><a href="{{ route('ubah-status-pelamar', ['lowonganId' => $lowongan->getId()->id(), 'mahasiswaId' => $dp->user_id]) }}" class="btn btn-primary btn-sm" onclick="ubah({{ $loop->index }})">{{ __('Ubah') }}</a></td>
+                <td><a href="{{ route('detail-mahasiswa', ['mahasiswaId' => $dp->user_id]) }}" class="btn btn-primary btn-sm">Lihat Detail</a></td>
             </tr>
             @endforeach
         </tbody>
