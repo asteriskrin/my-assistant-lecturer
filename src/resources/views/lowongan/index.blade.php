@@ -37,19 +37,19 @@
                         <p class="card-text">{{ $dl->deskripsi }}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="{{ route('detail-lowongan', ['lowonganId' => $dl->id]) }}" class="btn btn-info"><i class="bi bi-eye"></i></a>
+                        <a href="{{ route('detail-lowongan', ['lowonganId' => $dl->id]) }}" class="badge bg-info"><i class="bi bi-eye"></i></a>
                         @if (auth()->check() && auth()->user()->id == $dl->dosen_id)
-                            <a href="{{ route('ubah-lowongan', ['lowonganId' => $dl->id]) }}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{{ route('ubah-lowongan', ['lowonganId' => $dl->id]) }}" class="badge bg-warning"><i class="bi bi-pencil-square"></i></a>
                             <form method="POST" class="d-inline" action="{{ route('hapus-lowongan', ['lowonganId' => $dl->id]) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle"></i></button>
+                                <button type="submit" class="btn badge bg-danger"><i class="bi bi-x-circle"></i></button>
                             </form>
                         @endif
                         @if (auth()->check() && auth()->user()->nim)
                             <form method="POST" class="d-inline" action="{{ route('lamar', ['lowonganId' => $dl->id]) }}">
                                 @csrf
-                                <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i></button>
+                                <button type="submit" class="btn badge bg-success"><i class="bi bi-plus-circle"></i></button>
                             </form>
                         @endif
                     </div>
