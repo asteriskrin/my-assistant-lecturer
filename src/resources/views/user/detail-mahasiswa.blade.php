@@ -2,7 +2,7 @@
 @section('title', 'Detail Mahasiswa')
 @section('content')
   <div class="container d-flex flex-column vh-100 justify-content-center align-items-center">
-    <div class="card w-50">
+    <div class="card w-50 mb-3">
       <div class="card-body">
         <h5 class="card-title">Detail Mahasiswa</h5>
         <form action="/daftar">
@@ -77,5 +77,31 @@
         </form>
       </div>
     </div>
+
+    <h2>Riwayat Asistensi</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Mata Kuliah</th>
+          <th scope="col">Kode Kelas</th>
+          <th scope="col">Gaji</th>
+          <th scope="col">Tanggal Mulai</th>
+          <th scope="col">Tanggal Selesai</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach ($riwayat_asistensi as $ra)
+          <tr>
+            <th scope="row">{{ $loop->index + 1 }}</th>
+            <td>{{ $ra->mata_kuliah_nama }}</td>
+            <td>{{ $ra->kode_kelas }}</td>
+            <td>{{ $ra->gaji }}</td>
+            <td>{{ $ra->tanggal_mulai }}</td>
+            <td>{{ $ra->tanggal_selesai }}</td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
 @endsection
