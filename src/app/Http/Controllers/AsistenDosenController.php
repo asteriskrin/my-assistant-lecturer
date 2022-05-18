@@ -13,6 +13,7 @@ use App\Core\Application\Service\BuatLamaran\BuatLamaranService;
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenRequest;
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenService;
 use App\Core\Application\Query\DaftarLamaran\DaftarLamaranQueryInterface;
+use App\Core\Application\Query\DaftarRiwayatAsistensi\DaftarRiwayatAsistensiQueryInterface;
 use Exception;
 
 class AsistenDosenController extends Controller
@@ -23,7 +24,8 @@ class AsistenDosenController extends Controller
         private MahasiswaRepository $mahasiswaRepository,
         private AsistenDosenRepository $asistenDosenRepository,
         private UbahStatusAsistenDosenService $ubahStatusAsistenDosenService,
-        private BuatLamaranService $buatLamaranService
+        private BuatLamaranService $buatLamaranService,
+        private DaftarRiwayatAsistensiQueryInterface $daftarRiwayatAsistensiQuery
     ) { }
 
     public function lamar(string $lowonganId) {
@@ -117,9 +119,10 @@ class AsistenDosenController extends Controller
     /**
      * Show page for lihat detail mahasiswa
      */
-    public function lihatDetailMahasiswa(string $mahasiswaId) {
+    public function lihatDetailMahasiswa(string $mahasiswa_id) {
+
         try {
-            $mahasiswaId = new MahasiswaId($mahasiswaId);
+            $mahasiswaId = new MahasiswaId($mahasiswa_id);
         } catch (Exception $e) {
             return abort(404);
         }
@@ -129,6 +132,8 @@ class AsistenDosenController extends Controller
             return abort(404);
         }
 
+        $daftarRiwayatAsistensi = $this->daftarRiwayatAsistensiQuery->execute($mahasiswa_id);
+
         return view('user.detail-mahasiswa', [
             'namaLengkap' => $mahasiswa->getNamaLengkap(),
             'nim' => $mahasiswa->getNim(),
@@ -137,7 +142,8 @@ class AsistenDosenController extends Controller
             'semester' => $mahasiswa->getSemester(),
             'nomorRekening' => $mahasiswa->getNomorRekening(),
             'nomorTelepon' => $mahasiswa->getNomorTelepon(),
-            'email' => $mahasiswa->getEmail()
+            'email' => $mahasiswa->getEmail(),
+            'riwayat_asistensi' => $daftarRiwayatAsistensi
         ]);
     }
 }
