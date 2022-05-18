@@ -13,6 +13,7 @@ use App\Core\Application\Service\BuatLamaran\BuatLamaranService;
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenRequest;
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenService;
 use App\Core\Application\Query\DaftarLamaran\DaftarLamaranQueryInterface;
+use Exception;
 
 class AsistenDosenController extends Controller
 {
@@ -111,5 +112,32 @@ class AsistenDosenController extends Controller
 
         return response()->redirectToRoute('ubah-status-pelamar', ['lowonganId' => $lowonganId->id(), 'mahasiswaId' => $mahasiswaId->id()])
             ->with('success', 'berhasil_mengubah_status_pelamar');
+    }
+
+    /**
+     * Show page for lihat detail mahasiswa
+     */
+    public function lihatDetailMahasiswa(string $mahasiswaId) {
+        try {
+            $mahasiswaId = new MahasiswaId($mahasiswaId);
+        } catch (Exception $e) {
+            return abort(404);
+        }
+        
+        $mahasiswa = $this->mahasiswaRepository->byId($mahasiswaId);
+        if (!$mahasiswa) {
+            return abort(404);
+        }
+
+        return view('user.detail-mahasiswa', [
+            'namaLengkap' => $mahasiswa->getNamaLengkap(),
+            'nim' => $mahasiswa->getNim(),
+            'urlTranskripMk' => $mahasiswa->getUrlTranskripMk(),
+            'ipk' => $mahasiswa->getIpk(),
+            'semester' => $mahasiswa->getSemester(),
+            'nomorRekening' => $mahasiswa->getNomorRekening(),
+            'nomorTelepon' => $mahasiswa->getNomorTelepon(),
+            'email' => $mahasiswa->getEmail()
+        ]);
     }
 }
