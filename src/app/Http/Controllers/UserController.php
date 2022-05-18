@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Core\Application\Service\UbahDosen\UbahDosenRequest;
 use App\Core\Application\Service\UbahDosen\UbahDosenService;
+use App\Core\Application\Service\UbahMahasiswa\UbahMahasiswaRequest;
+use App\Core\Application\Service\UbahMahasiswa\UbahMahasiswaService;
 use App\Core\Domain\Exception\ApplicationServiceException;
 use App\Core\Domain\Model\DosenId;
 use App\Core\Domain\Model\MahasiswaId;
@@ -128,32 +130,33 @@ class UserController extends Controller
 
             $validatedData = $request->validate($mahasiswaValidationRules);
 
-            // $buatMahasiswaRequest = new BuatMahasiswaRequest(
-            //     namaLengkap: $validatedData['namaLengkap'],
-            //     nim: $validatedData['nim'],
-            //     urlTranskripMk: $validatedData['urlTranskripMk'],
-            //     ipk: $validatedData['ipk'],
-            //     semester: $validatedData['semester'],
-            //     nomorRekening: $validatedData['nomorRekening'],
-            //     nomorTelepon: $validatedData['nomorTelepon'],
-            //     email: $validatedData['email'],
-            //     password: Hash::make($validatedData['password']),
-            // );
+            $ubahMahasiswaRequest = new UbahMahasiswaRequest(
+                id: $user->id,
+                namaLengkap: $validatedData['namaLengkap'],
+                nim: $validatedData['nim'],
+                urlTranskripMk: $validatedData['urlTranskripMk'],
+                ipk: $validatedData['ipk'],
+                semester: $validatedData['semester'],
+                nomorRekening: $validatedData['nomorRekening'],
+                nomorTelepon: $validatedData['nomorTelepon'],
+                email: $validatedData['email'],
+                password: Hash::make($validatedData['password']),
+            );
 
-            // $buatMahasiswaService = new BuatMahasiswaService(
-            //     mahasiswaRepository: $this->mahasiswaRepository
-            // );
+            $ubahMahasiswaService = new UbahMahasiswaService(
+                mahasiswaRepository: $this->mahasiswaRepository
+            );
 
-            // try {
-            //     $buatMahasiswaService->execute($buatMahasiswaRequest);
-            // } catch (ApplicationServiceException $e) {
-            //     return back()->with(
-            //         'failed',
-            //         'Ubah profil gagal, ' . $e->getMessage()
-            //     );
-            // }
+            try {
+                $ubahMahasiswaService->execute($ubahMahasiswaRequest);
+            } catch (ApplicationServiceException $e) {
+                return back()->with(
+                    'failed',
+                    'Ubah profil gagal, ' . $e->getMessage()
+                );
+            }
 
-            return redirect('/masuk')->with('success', 'Ubah profil berhasil');
+            return back()->with('success', 'Ubah profil berhasil');
         }
 
         return back()->with('failed', 'Ubah profil gagal, terjadi kesalahan');
