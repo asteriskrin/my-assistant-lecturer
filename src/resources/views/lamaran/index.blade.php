@@ -3,11 +3,9 @@
 @section('title', 'Daftar Lamaran')
 @section('content')
 <div class="container">
-    <div class="row mt-3 mx-0">
-        <div class="card">
-            <div class="card-body">
-                <h2>Lamaranku</h2>
-            </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h2>Lamaranku</h2>
         </div>
     </div>
 
