@@ -96,7 +96,7 @@
                 <th scope="row">{{ $loop->index + 1 }}</th>
                 <td>{{ $ra->mata_kuliah_nama }}</td>
                 <td>{{ $ra->kode_kelas }}</td>
-                <td>{{ $ra->gaji }}</td>
+                <td>Rp{{ $ra->gaji }}</td>
                 <td>{{ $ra->tanggal_mulai }}</td>
                 <td>{{ $ra->tanggal_selesai }}</td>
               </tr>
