@@ -8,7 +8,7 @@
         
         @yield('head-extension')
     </head>
-    <body>
+    <body class="bg-light">
         @include('partials.navbar')
 
         @yield('content')
