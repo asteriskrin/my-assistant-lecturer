@@ -9,4 +9,5 @@ interface DosenRepository
 {
   public function insert(Dosen $dosen): bool;
   public function byId(DosenId $dosenId): ?Dosen;
+  public function update(Dosen $dosen): bool;
 }

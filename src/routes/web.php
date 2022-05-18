@@ -7,6 +7,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\AsistenDosenController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 
 /*
@@ -44,6 +45,9 @@ Route::middleware('auth')->group(function() {
         Route::get('/lamaranku', [AsistenDosenController::class, 'index'])->name('lamaran');
     });
     Route::post('/keluar', [LoginController::class, 'logout']);
+
+    Route::get('/ubah-profil', [UserController::class, 'ubah']);
+    Route::post('/ubah-profil', [UserController::class, 'ubahAction']);
 });
 Route::middleware('guest')->group(function() {
     Route::get('/daftar', [RegisterController::class, 'daftar']);
