@@ -45,6 +45,7 @@
                 <th scope="col">{{ __('Tanggal') }}</th>
                 <th scope="col">{{ __('Nama') }}</th>
                 <th scope="col">{{ __('Status') }}</th>
+                <th scope="col">{{ __('Status Pembayaran') }}</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -55,6 +56,7 @@
                 <td>{{ $dp->tanggal_melamar }}</td>
                 <td>{{ $dp->nama_lengkap }}</td>
                 <td>{{ $dp->diterima ? 'Diterima' : ($lowongan->getTerbuka() ? 'Pending' : 'Tidak diterima') }}</td>
+                <td>{{ $dp->dibayar ? 'Lunas' : 'Belum lunas' }}</td>
                 @if (auth()->check() && auth()->user()->id == $lowongan->getDosenId()->id())
                     <td><a href="{{ route('ubah-status-pelamar', ['lowonganId' => $lowongan->getId()->id(), 'mahasiswaId' => $dp->user_id]) }}" class="btn btn-primary btn-sm" onclick="ubah({{ $loop->index }})">{{ __('Ubah') }}</a></td>
                     <td><a href="{{ route('detail-mahasiswa', ['mahasiswaId' => $dp->user_id]) }}" class="btn btn-primary btn-sm">Lihat Detail</a></td>

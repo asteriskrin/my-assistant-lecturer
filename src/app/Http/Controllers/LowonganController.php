@@ -21,6 +21,7 @@ use App\Core\Application\Service\TutupLowongan\TutupLowonganService;
 use App\Core\Domain\Repository\LowonganRepository;
 use App\Core\Domain\Repository\MataKuliahRepository;
 use App\Core\Domain\Repository\DosenRepository;
+use Exception;
 
 class LowonganController extends Controller
 {
