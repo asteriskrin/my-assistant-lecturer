@@ -7,6 +7,7 @@ class DaftarPelamarDto {
         public string $user_id,
         public string $nama_lengkap,
         public string $tanggal_melamar,
-        public bool $diterima
+        public bool $diterima,
+        public bool $dibayar
     ) { }
 }
