@@ -32,8 +32,8 @@ class SqlServerDosenRepository implements DosenRepository
     }
     return null;
   }
-  public function insert(Dosen $dosen): bool
-  {
+
+  public function insert(Dosen $dosen): bool {
     $values = [
       'id' => $dosen->getId()->id(),
       'nama_lengkap' => $dosen->getNamaLengkap(),
@@ -50,5 +50,25 @@ class SqlServerDosenRepository implements DosenRepository
     ];
 
     return DB::table('user')->insert($values);
+  }
+
+  public function update(Dosen $dosen): bool {
+    $values = [
+      'nama_lengkap' => $dosen->getNamaLengkap(),
+      'nim' => null,
+      'nip' => $dosen->getNip(),
+      'url_transkrip_mk' => null,
+      'ipk' => null,
+      'semester' => null,
+      'nomor_rekening' => null,
+      'nomor_telepon' => $dosen->getNomorTelepon(),
+      'email' => $dosen->getEmail(),
+      'password' => $dosen->getPassword(),
+      'created_at' => $dosen->getCreatedAt()->format('y-m-d'),
+    ];
+
+    $affected = DB::table('user')->where('id', $dosen->getId()->id())->update($values);
+
+    return $affected === 1;
   }
 }

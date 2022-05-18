@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Application\Service\UbahDosen\UbahDosenRequest;
+use App\Core\Application\Service\UbahDosen\UbahDosenService;
 use App\Core\Domain\Exception\ApplicationServiceException;
 use App\Core\Domain\Model\DosenId;
 use App\Core\Domain\Model\MahasiswaId;
@@ -71,14 +73,16 @@ class UserController extends Controller
             'namaLengkap' => ['required', 'max:255'],
             'nomorTelepon' => ['required', 'numeric'],
             'password' => ['required', 'min:8'],
+            'email' => []
         ];
 
         if ($request->input('email') != $user->email) {
             $generalValidationRules['email'] = ['required', 'email:dns', 'unique:user'];
         }
 
-        if ($request->input('nip')) { // Jika daftar sebagai dosen
+        if ($request->input('nip')) {
             $dosenValidationRules = $generalValidationRules;
+            $dosenValidationRules['nip'] = [];
 
             if ($request->input('nip') != $user->nip) {
                 $dosenValidationRules['nip'] = ['required', 'numeric', 'unique:user'];
@@ -86,29 +90,31 @@ class UserController extends Controller
 
             $validatedData = $request->validate($dosenValidationRules);
 
-            // $buatDosenRequest = new BuatDosenRequest(
-            //     namaLengkap: $validatedData['namaLengkap'],
-            //     nip: $validatedData['nip'],
-            //     nomorTelepon: $validatedData['nomorTelepon'],
-            //     email: $validatedData['email'],
-            //     password: Hash::make($validatedData['password'])
-            // );
+            $ubahDosenRequest = new UbahDosenRequest(
+                id: $user->id,
+                namaLengkap: $validatedData['namaLengkap'],
+                nip: $validatedData['nip'],
+                nomorTelepon: $validatedData['nomorTelepon'],
+                email: $validatedData['email'],
+                password: Hash::make($validatedData['password'])
+            );
 
-            // $buatDosenService = new BuatDosenService(
-            //     dosenRepository: $this->dosenRepository
-            // );
+            $ubahDosenService = new UbahDosenService(
+                dosenRepository: $this->dosenRepository
+            );
 
-            // try {
-            //     $buatDosenService->execute($buatDosenRequest);
-            // } catch (ApplicationServiceException $e) {
-            //     return back()->with('failed', 'Pendaftaran gagal, ' . $e->getMessage());
-            // }
+            try {
+                $ubahDosenService->execute($ubahDosenRequest);
+            } catch (ApplicationServiceException $e) {
+                return back()->with('failed', 'Ubah profil gagal, ' . $e->getMessage());
+            }
 
-            // return redirect('/masuk')->with('success', 'Pendaftaran berhasil, silakan masuk');
-        } else if ($request->input('nim')) { // Jika daftar sebagai mahasiswa
+            return back()->with('success', 'Ubah profil berhasil');
+        } else if ($request->input('nim')) {
             $mahasiswaValidationRules = array_merge(
                 $generalValidationRules,
                 [
+                    'nim' => [],
                     'urlTranskripMk' => ['required', 'url'],
                     'ipk' => ['required', 'numeric', 'min:0', 'max:4'],
                     'semester' => ['required', 'numeric', 'min:1', 'max:14'],
@@ -143,13 +149,13 @@ class UserController extends Controller
             // } catch (ApplicationServiceException $e) {
             //     return back()->with(
             //         'failed',
-            //         'Pendaftaran gagal, ' . $e->getMessage()
+            //         'Ubah profil gagal, ' . $e->getMessage()
             //     );
             // }
 
-            // return redirect('/masuk')->with('success', 'Pendaftaran berhasil, silakan masuk');
+            return redirect('/masuk')->with('success', 'Ubah profil berhasil');
         }
 
-        return back()->with('failed', 'Pendaftaran gagal, terjadi kesalahan');
+        return back()->with('failed', 'Ubah profil gagal, terjadi kesalahan');
     }
 }

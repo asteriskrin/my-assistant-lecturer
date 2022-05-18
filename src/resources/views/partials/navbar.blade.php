@@ -32,6 +32,7 @@
             Selamat datang, {{ auth()->user()->nama_lengkap }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/ubah-profil">Ubah Profil</a></li>
             <li><a class="dropdown-item" href="/lowongan">Lowongan</a></li>
             <li><hr class="dropdown-divider"></li>
             <li>  
