@@ -7,6 +7,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\AsistenDosenController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function() {
     Route::middleware('mahasiswa')->group(function () {
         Route::post('/lowongan/lamar/{lowonganId:uuid}', [AsistenDosenController::class, 'lamar'])->name('lamar');
         Route::get('/lamaranku', [AsistenDosenController::class, 'index'])->name('lamaran');
+        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi');;
     });
     Route::post('/keluar', [LoginController::class, 'logout']);
 
