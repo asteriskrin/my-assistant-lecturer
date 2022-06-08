@@ -24,13 +24,6 @@
     @endif
 
     <br>
-    <table class="table table-striped mt-3">
-        <thead class="table">
-            <tr>
-                <h3 scope="col">Belum Dibaca</h3>
-            </tr>
-        </thead>
-    </table>
 
     <table class="table belum-dibaca">
     <tbody>
@@ -40,61 +33,8 @@
                 <td>{{ $dn->pesan }}</td>
             </tr>
         @endforeach
+        
     </tbody>
-
-        <!-- <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis quas sapiente porro sunt consectetur doloremque alias, maxime eum cupiditate excepturi tempora ut, dolore ipsam mollitia?
-                    <div class="current_date"></div>
-                </td>
-                <td>dimengerti</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis deserunt aut similique corporis nam. Quibusdam debitis soluta fugit animi, magnam est beatae tempore iusto, eum non repellendus vero hic dicta!
-                    <div class="current_date"></div>
-                </td>
-                <td>dimengerti</td>
-            <tr>
-                <th scope="row">3</th>
-                <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil commodi quam nesciunt ea maxime sint consequatur fuga omnis, labore rerum illo fugit ex ab quae provident minus eveniet vel, maiores alias voluptas est reprehenderit. Suscipit tempore incidunt porro maxime minima!
-                    <div class="current_date"></div>
-                </td>
-                <td>dimengerti</td>
-            </tr>
-        </tbody> -->
-    </table>
-
-    <br>
-    <table class="table table-striped mt-3">
-        <thead class="table">
-            <tr>
-                <h3 scope="col">Sudah Dibaca</h3>
-            </tr>
-        </thead>
-    </table>
-
-    <table class="table sudah-dibaca">
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis quas sapiente porro sunt consectetur doloremque alias, maxime eum cupiditate excepturi tempora ut, dolore ipsam mollitia?
-                    <div class="current_date"></div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis deserunt aut similique corporis nam. Quibusdam debitis soluta fugit animi, magnam est beatae tempore iusto, eum non repellendus vero hic dicta!
-                <div class="current_date"></div>
-                </td>
-            <tr>
-                <th scope="row">3</th>
-                <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil commodi quam nesciunt ea maxime sint consequatur fuga omnis, labore rerum illo fugit ex ab quae provident minus eveniet vel, maiores alias voluptas est reprehenderit. Suscipit tempore incidunt porro maxime minima!
-                <div class="current_date"></div>
-                </td>
-            </tr>
-        </tbody>
     </table>
 </div>
 
