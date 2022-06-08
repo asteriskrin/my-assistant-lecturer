@@ -33,7 +33,6 @@
                 <td>{{ $dn->pesan }}</td>
             </tr>
         @endforeach
-        
     </tbody>
     </table>
 </div>
