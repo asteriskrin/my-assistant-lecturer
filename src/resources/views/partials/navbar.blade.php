@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="/">Home</a>
+          <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{ Request::is('lowongan') ? 'active' : '' }}" href="/lowongan">Lowongan</a>
@@ -17,14 +17,14 @@
         <li class="nav-item">
           <a class="nav-link {{ Request::route()->getName() == 'lamaran' ? 'active' : '' }}" href="{{ route('lamaran') }}">{{ __('Lamaranku') }}</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::route()->getName() == 'notifikasi' ? 'active' : '' }}" href="{{ route('notifikasi') }}">{{ __('Notifikasi') }}</a>
-        </li>
         @elseif (auth()->user()->nip)
         <li class="nav-item">
           <a class="nav-link {{ Request::route()->getName() == 'lowonganku' ? 'active' : '' }}" href="{{ route('lowonganku') }}">{{ __('Lowonganku') }}</a>
         </li>
         @endif
+        <li class="nav-item">
+          <a class="nav-link {{ Request::route()->getName() == 'notifikasi' ? 'active' : '' }}" href="{{ route('notifikasi') }}">{{ __('Notifikasi') }}</a>
+        </li>
         @endauth
       </ul>
       <div class="ul navbar-nav ms-auto">

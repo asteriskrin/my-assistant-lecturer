@@ -14,7 +14,7 @@ use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenRe
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenService;
 use App\Core\Application\Query\DaftarLamaran\DaftarLamaranQueryInterface;
 use App\Core\Application\Query\DaftarRiwayatAsistensi\DaftarRiwayatAsistensiQueryInterface;
-use App\Events\CreateNotifikasi;
+use App\Jobs\BuatNotifikasiJob;
 use Exception;
 
 class AsistenDosenController extends Controller
@@ -34,6 +34,7 @@ class AsistenDosenController extends Controller
         $lowongan = $this->lowonganRepository->byId($lowonganId);
         if (!$lowongan) return abort(404);
         $mahasiswaId = new MahasiswaId(auth()->user()->id);
+        $mahasiswa = $this->mahasiswaRepository->byId($mahasiswaId);
         $asistenDosen = $this->asistenDosenRepository->byId($lowonganId, $mahasiswaId);
         if ($asistenDosen) {
             return response()->redirectTo(route('lowongan'))
@@ -52,6 +53,8 @@ class AsistenDosenController extends Controller
         catch (Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
+
+        BuatNotifikasiJob::dispatch($lowongan->getDosenId()->id(), 'n', $mahasiswa->getNamaLengkap().' melamar di suatu lowongan asisten dosen yang anda buat.');
 
         return response()->redirectToRoute('lowongan')
             ->with('success', 'berhasil_melamar_ke_lowongan');
@@ -112,9 +115,12 @@ class AsistenDosenController extends Controller
         catch (Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
-
-        // event (new CreateNotifikasi($mahasiswaId->id(), 'n', 'Anda telah diterima di suatu lowongan asisten dosen.'));
-
+        if ($diterima) {
+            BuatNotifikasiJob::dispatch($mahasiswaId->id(), 'n', 'Anda telah diterima di suatu lowongan asisten dosen.');
+        }
+        if ($dibayar) {
+            BuatNotifikasiJob::dispatch($mahasiswaId->id(), 'n', 'Anda telah menerima honor di suatu lowongan asisten dosen.');
+        }
         return response()->redirectToRoute('ubah-status-pelamar', ['lowonganId' => $lowonganId->id(), 'mahasiswaId' => $mahasiswaId->id()])
             ->with('success', 'berhasil_mengubah_status_pelamar');
     }
