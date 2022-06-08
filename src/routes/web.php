@@ -44,10 +44,9 @@ Route::middleware('auth')->group(function() {
     Route::middleware('mahasiswa')->group(function () {
         Route::post('/lowongan/lamar/{lowonganId:uuid}', [AsistenDosenController::class, 'lamar'])->name('lamar');
         Route::get('/lamaranku', [AsistenDosenController::class, 'index'])->name('lamaran');
-        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi');;
     });
     Route::post('/keluar', [LoginController::class, 'logout']);
-
+    Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi');;
     Route::get('/ubah-profil', [UserController::class, 'ubah']);
     Route::post('/ubah-profil', [UserController::class, 'ubahAction']);
 });
