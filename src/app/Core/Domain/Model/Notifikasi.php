@@ -19,7 +19,7 @@ class Notifikasi {
         MahasiswaId $mahasiswa_id,
         string $jenis,
         string $pesan,
-        Bool $dibaca,
+        bool $dibaca,
         ?DateTime $created_at
     ) {
         if ($jenis == '\0') throw new \InvalidArgumentException("deskripsi can not be null string.");
@@ -29,7 +29,7 @@ class Notifikasi {
         $this->mahasiswa_id = $mahasiswa_id;
         $this->jenis = $jenis;
         $this->pesan = $pesan;
-        $this->terbuka = $terbuka;
+        $this->dibaca = $dibaca;
         $this->created_at = $created_at;
     }
 
@@ -37,7 +37,7 @@ class Notifikasi {
         return $this->id;
     }
 
-    public function getMahasiswaId() : MahasiswaiId {
+    public function getMahasiswaId() : MahasiswaId {
         return $this->mahasiswa_id;
     }
 
@@ -53,7 +53,7 @@ class Notifikasi {
         return $this->dibaca;
     }
   
-    public function سetDibaca() : string {
+    public function setDibaca() : string {
         $this->dibaca = $dibaca;
     }
   

@@ -26,8 +26,7 @@ class SqlDaftarNotifikasiQuery implements DaftarNotifikasiQueryInterface {
                 mahasiswa_id: $notifikasi->mahasiswa_id,
                 jenis: $notifikasi->jenis,
                 pesan: $notifikasi->pesan,
-                dibaca: $notifikasi->dibaca,
-                nama_lengkap: $notifikasi->nama_lengkap
+                dibaca: $notifikasi->dibaca
             );
         }
 

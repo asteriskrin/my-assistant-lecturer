@@ -38,7 +38,7 @@ class SqlServerNotifikasiRepository implements NotifikasiRepository
           'mahasiswa_id' => $notifikasi->getMahasiswaId()->id(),
           'jenis' => $notifikasi->getJenis(),
           'pesan' => $notifikasi->getPesan(),
-          'dibaca' => $notifikasi->getDiterima() ? 'Y' : 'N',
+          'dibaca' => $notifikasi->getDibaca() ? 'Y' : 'N',
           'created_at' => $notifikasi->getCreatedAt()->format('y-m-d'),
         ];
     
