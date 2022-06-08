@@ -12,6 +12,8 @@ use App\Core\Application\Service\BuatLamaran\BuatLamaranRequest;
 use App\Core\Application\Service\BuatLamaran\BuatLamaranService;
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenRequest;
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenService;
+use App\Core\Application\Service\BuatNotifikasi\BuatNotifikasiRequest;
+use App\Core\Application\Service\BuatNotifikasi\BuatNotifikasiService;
 use App\Core\Application\Query\DaftarLamaran\DaftarLamaranQueryInterface;
 use App\Core\Application\Query\DaftarRiwayatAsistensi\DaftarRiwayatAsistensiQueryInterface;
 use Exception;
@@ -24,6 +26,7 @@ class AsistenDosenController extends Controller
         private MahasiswaRepository $mahasiswaRepository,
         private AsistenDosenRepository $asistenDosenRepository,
         private UbahStatusAsistenDosenService $ubahStatusAsistenDosenService,
+        private BuatNotifikasiService $buatNotifikasiService,
         private BuatLamaranService $buatLamaranService,
         private DaftarRiwayatAsistensiQueryInterface $daftarRiwayatAsistensiQuery
     ) { }
@@ -104,9 +107,12 @@ class AsistenDosenController extends Controller
         $diterima = $request->diterima == 1 ? true : false;
         $dibayar = $request->dibayar == 1 ? true : false;
         $ubahRequest = new UbahStatusAsistenDosenRequest($mahasiswaId->id(), $lowonganId->id(), $diterima, $dibayar);
+
+        $buatNotifikasiRequest = new BuatNotifikasiRequest($mahasiswaId->id(), 'n', 'Anda telah diterima menjadi asisten dosen di mata kuliah');
         
         try {
             $this->ubahStatusAsistenDosenService->execute($ubahRequest);
+            $this->buatNotifikasiService->execute($buatNotifikasiRequest);
         }
         catch (Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();

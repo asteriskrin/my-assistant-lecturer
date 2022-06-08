@@ -3,6 +3,8 @@
 namespace App\Infrastructure\Repository;
 
 use App\Core\Domain\Model\Notifikasi;
+use App\Core\Domain\Model\NotifikasiId;
+use App\Core\Domain\Repository\NotifikasiRepository;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
