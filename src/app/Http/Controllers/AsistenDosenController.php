@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Core\Domain\Repository\LowonganRepository;
 use App\Core\Domain\Repository\MahasiswaRepository;
 use App\Core\Domain\Repository\AsistenDosenRepository;
+use App\Core\Domain\Repository\MataKuliahRepository;
 use App\Core\Domain\Model\LowonganId;
 use App\Core\Domain\Model\MahasiswaId;
 use App\Core\Application\Service\BuatLamaran\BuatLamaranRequest;
@@ -14,6 +15,7 @@ use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenRe
 use App\Core\Application\Service\UbahStatusAsistenDosen\UbahStatusAsistenDosenService;
 use App\Core\Application\Query\DaftarLamaran\DaftarLamaranQueryInterface;
 use App\Core\Application\Query\DaftarRiwayatAsistensi\DaftarRiwayatAsistensiQueryInterface;
+use App\Jobs\BuatNotifikasiJob;
 use Exception;
 
 class AsistenDosenController extends Controller
@@ -23,6 +25,7 @@ class AsistenDosenController extends Controller
         private LowonganRepository $lowonganRepository,
         private MahasiswaRepository $mahasiswaRepository,
         private AsistenDosenRepository $asistenDosenRepository,
+        private MataKuliahRepository $mataKuliahRepository,
         private UbahStatusAsistenDosenService $ubahStatusAsistenDosenService,
         private BuatLamaranService $buatLamaranService,
         private DaftarRiwayatAsistensiQueryInterface $daftarRiwayatAsistensiQuery
@@ -33,6 +36,8 @@ class AsistenDosenController extends Controller
         $lowongan = $this->lowonganRepository->byId($lowonganId);
         if (!$lowongan) return abort(404);
         $mahasiswaId = new MahasiswaId(auth()->user()->id);
+        $mahasiswa = $this->mahasiswaRepository->byId($mahasiswaId);
+        $mataKuliah = $this->mataKuliahRepository->byId($lowongan->getMataKuliahId());
         $asistenDosen = $this->asistenDosenRepository->byId($lowonganId, $mahasiswaId);
         if ($asistenDosen) {
             return response()->redirectTo(route('lowongan'))
@@ -51,6 +56,8 @@ class AsistenDosenController extends Controller
         catch (Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
+
+        BuatNotifikasiJob::dispatch($lowongan->getDosenId()->id(), 'n', $mahasiswa->getNamaLengkap().' melamar di lowongan '.$mataKuliah->getKode().'. '.$mataKuliah->getNama().' '.$lowongan->getKodeKelas());
 
         return response()->redirectToRoute('lowongan')
             ->with('success', 'berhasil_melamar_ke_lowongan');
@@ -101,17 +108,24 @@ class AsistenDosenController extends Controller
         $asistenDosen = $this->asistenDosenRepository->byId($lowonganId, $mahasiswaId);
         if (!$asistenDosen) return abort(404);
 
+        $mataKuliah = $this->mataKuliahRepository->byId($lowongan->getMataKuliahId());
+
         $diterima = $request->diterima == 1 ? true : false;
         $dibayar = $request->dibayar == 1 ? true : false;
         $ubahRequest = new UbahStatusAsistenDosenRequest($mahasiswaId->id(), $lowonganId->id(), $diterima, $dibayar);
-        
+
         try {
             $this->ubahStatusAsistenDosenService->execute($ubahRequest);
         }
         catch (Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
-
+        if ($diterima && !$asistenDosen->getDiterima()) {
+            BuatNotifikasiJob::dispatch($mahasiswaId->id(), 'n', 'Anda telah diterima di lowongan '.$mataKuliah->getKode().'. '.$mataKuliah->getNama().' '.$lowongan->getKodeKelas());
+        }
+        if ($dibayar && !$asistenDosen->getDibayar()) {
+            BuatNotifikasiJob::dispatch($mahasiswaId->id(), 'n', 'Anda telah menerima honor dari lowongan '.$mataKuliah->getKode().'. '.$mataKuliah->getNama().' '.$lowongan->getKodeKelas());
+        }
         return response()->redirectToRoute('ubah-status-pelamar', ['lowonganId' => $lowonganId->id(), 'mahasiswaId' => $mahasiswaId->id()])
             ->with('success', 'berhasil_mengubah_status_pelamar');
     }

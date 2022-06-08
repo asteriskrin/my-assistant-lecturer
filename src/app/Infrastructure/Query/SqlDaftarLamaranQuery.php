@@ -12,9 +12,9 @@ class SqlDaftarLamaranQuery implements DaftarLamaranQueryInterface {
         $sql = "SELECT l.id, l.dosen_id, l.mata_kuliah_id, l.kode_kelas, l.gaji, l.tanggal_mulai, l.tanggal_selesai, l.deskripsi, l.terbuka, mk.nama as mata_kuliah_nama, ad.diterima as lamaran_diterima, ad.dibayar as lamaran_dibayar, ad.created_at as lamaran_created_at 
             FROM lowongan l
             INNER JOIN mata_kuliah mk ON mk.id = l.mata_kuliah_id
-            INNER JOIN asisten_dosen ad ON ad.lowongan_id = l.id 
+            INNER JOIN asisten_dosen ad ON ad.lowongan_id = l.id
             WHERE ad.mahasiswa_id = :mahasiswa_id
-            ORDER BY ad.created_at DESC 
+            ORDER BY ad.created_at DESC
             ";
         
         $result = DB::select($sql, ['mahasiswa_id' => $mahasiswa_id]);
