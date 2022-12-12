@@ -9,7 +9,14 @@ This is how to install this application.
 4. Run `docker compose up -d`.
 5. Point your internet IPv4 address to domain assistantlecturer.local by using HostsMan application.
 6. Enter the docker container terminal and do composer install.
-6. Try to access http://assistantlecturer.local on your browser to see if it is installed successfully or not.
+7. Run these following command on the docker terminal as well.
+```bash
+chown -R $USER:www-data storage
+chown -R $USER:www-data bootstrap/cache
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+```
+8. Try to access http://assistantlecturer.local on your browser to see if it is installed successfully or not.
 
 ## Reference
 1. <a href="https://github.com/dptsi/laravel-web-dev">DPTSI Laravel Web Development</a>
