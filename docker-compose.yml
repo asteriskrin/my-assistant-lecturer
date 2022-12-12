@@ -15,27 +15,6 @@ services:
       - mial-db
     networks:
       - nginx-proxy-network
-      - mial-private-network
-  mial-db:
-    container_name: mial-db
-    image: mariadb:latest
-    restart: unless-stopped
-    ports:
-      - 3306:3306
-    volumes:
-      - ./mysql-data:/var/lib/mysql
-      - ./mysql-init-files:/docker-entrypoint-initdb.d
-    restart: always
-    environment:
-      - MARIADB_ROOT_PASSWORD=qwerty123
-      - MYSQL_USER=mial_user
-      - MYSQL_PASSWORD=qwerty456
-      - MYSQL_DATABASE=mial_db
-    networks:
-      - mial-private-network
-
 networks:
   nginx-proxy-network:
     external: true
-  mial-private-network:
-    driver: bridge
