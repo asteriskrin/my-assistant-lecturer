@@ -11,8 +11,6 @@ services:
       - 1.0.0.1
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    depends_on:
-      - mial-db
     networks:
       - nginx-proxy-network
 networks:
