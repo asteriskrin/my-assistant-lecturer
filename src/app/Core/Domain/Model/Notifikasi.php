@@ -33,6 +33,15 @@ class Notifikasi {
         $this->created_at = $created_at;
     }
 
+    public static function unserialize($serialized) {
+        return new self(new NotifikasiId($serialized->id),
+            new MahasiswaId($serialized->mahasiswa_id),
+            $serialized->janis,
+            $serialized->pesan,
+            $serialized->dibaca == 'Y' ? true : false,
+            new DateTime($serialized->created_at));
+    }
+
     public function getId() : NotifikasiId {
         return $this->id;
     }

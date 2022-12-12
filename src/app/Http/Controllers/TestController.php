@@ -7,6 +7,7 @@ use DateTime;
 use DB;
 
 use App\Core\Domain\Model\Lowongan;
+use Illuminate\Support\Facades\Redis;
 
 class TestController extends Controller
 {
@@ -19,6 +20,13 @@ class TestController extends Controller
             DB::connection()->getPdo();
         } catch (\Exception $e) {
             die("Could not connect to the database.  Please check your configuration. error:" . $e );
+        }
+
+        // Test Redis connection
+        try {
+            Redis::connection();
+        } catch (\Exception $e) {
+            die("Could not connect to the redis. Please check your configuration. error: " . $e);
         }
 
         $lowongan = new Lowongan(1,

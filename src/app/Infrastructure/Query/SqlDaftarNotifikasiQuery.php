@@ -4,11 +4,23 @@ namespace App\Infrastructure\Query;
 
 use App\Core\Application\Query\DaftarNotifikasi\DaftarNotifikasiDto;
 use App\Core\Application\Query\DaftarNotifikasi\DaftarNotifikasiQueryInterface;
+use App\Core\Domain\Model\Notifikasi;
 use DB;
 use DateTime;
+use Illuminate\Support\Facades\Redis;
 
 class SqlDaftarNotifikasiQuery implements DaftarNotifikasiQueryInterface {
     public function execute(string $mahasiswa_id) : array {
+        // Get data from redis
+        $redis_key = 'user:notifikasi'.$mahasiswa_id;
+        $daftar_notifikasi = Redis::get($redis_key);
+        if (Redis::exists($daftar_notifikasi)) {
+            $daftar_notifikasi = [];
+            foreach ($unserialized_notifikasi_list as $n) {
+                $daftar_notifikasi[] = Notifikasi::unserialize($n);
+            }
+            return $daftar_notifikasi;
+        }
         $sql = "SELECT n.id, n.mahasiswa_id, n.pesan, n.jenis, n.dibaca, u.nama_lengkap
             FROM notifikasi n
             INNER JOIN  user u ON u.id = n.mahasiswa_id
@@ -28,6 +40,12 @@ class SqlDaftarNotifikasiQuery implements DaftarNotifikasiQueryInterface {
                 pesan: $notifikasi->pesan,
                 dibaca: $notifikasi->dibaca
             );
+        }
+
+        // Write data to redis
+        if (count($daftar_notifikasi) > 0) {
+            Redis::set($redis_key, $daftar_notifikasi);
+            Redis::expire($redis_key, 60*5);
         }
 
         return $daftar_notifikasi;

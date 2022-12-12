@@ -55,6 +55,8 @@ class SqlServerNotifikasiRepository implements NotifikasiRepository
         ];
     
         $affected = DB::table('notifikasi')->where('id', $notifikasi->getId()->id())->update($values);
+
+        Redis::expire('user:notifikasi'.$values['mahasiswa_id'], 60*5);
     
         return $affected === 1;
     }

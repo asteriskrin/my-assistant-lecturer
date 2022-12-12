@@ -48,6 +48,19 @@ class Lowongan {
         $this->created_at = $created_at;
     }
 
+    public static function unserialize($serialized) {
+        return new self(new LowonganId($serialized->id),
+        new DosenId($serialized->dosen_id),
+        new MataKuliahId($serialized->mata_kuliah_id),
+        $serialized->kode_kelas,
+        $serialized->gaji,
+        new DateTime($serialized->tanggal_mulai),
+        new DateTime($serialized->tanggal_selesai),
+        $serialized->deskripsi,
+        $serialized->terbuka == 'Y' ? true : false,
+        new DateTime($serialized->created_at));
+    }
+
     public function getId() : LowonganId {
         return $this->id;
     }

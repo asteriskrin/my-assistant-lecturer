@@ -9,12 +9,20 @@ use App\Core\Domain\Model\DosenId;
 use App\Core\Domain\Model\MataKuliahId;
 use DB;
 use DateTime;
+use Illuminate\Support\Facades\Redis;
 
 class SqlServerLowonganRepository implements LowonganRepository {
     /**
      * Select by Id
      */
     public function byId(LowonganId $lowonganId) : ?Lowongan {
+        // Get data from redis
+        $redis_key = 'lowongan'.$lowonganId->id();
+        if (Redis::exists($redis_key)) {
+            $lowongan_unserialized = unserialize(Redis::get($redis_key));
+            return Lowongan::unserialize($lowongan_unserialized);
+        }
+
         $sql = "SELECT id, dosen_id, mata_kuliah_id, kode_kelas, gaji, tanggal_mulai, tanggal_selesai, deskripsi, terbuka, created_at
                 FROM lowongan
                 WHERE id = :id";
@@ -24,6 +32,10 @@ class SqlServerLowonganRepository implements LowonganRepository {
         ]);
 
         if ($lowongan) {
+            // Write data to redis
+            Redis::set($redis_key, serialize($lowongan));
+            Redis::expire($redis_key, 3600*3);
+
             return new Lowongan(
                 $lowonganId,
                 new DosenId($lowongan->dosen_id),
@@ -37,6 +49,8 @@ class SqlServerLowonganRepository implements LowonganRepository {
                 new DateTime($lowongan->created_at)
             );
         }
+
+
         return null;
     }
     /**
@@ -93,6 +107,10 @@ class SqlServerLowonganRepository implements LowonganRepository {
         ];
 
         DB::update($sql, $data);
+
+        // Delete data from redis
+        $redis_key = 'lowongan'.$lowongan->getId()->id();
+        Redis::del($redis_key);
     }
 
     /**
@@ -103,5 +121,8 @@ class SqlServerLowonganRepository implements LowonganRepository {
                 WHERE id = :id";
         $data = ['id' => $lowongan->getId()->id()];
         DB::delete($sql, $data);
+
+        // Delete data from redis
+        Redis::del('lowongan'.$lowonganId->id());
     }
 }
