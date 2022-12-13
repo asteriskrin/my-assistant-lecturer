@@ -123,6 +123,6 @@ class SqlServerLowonganRepository implements LowonganRepository {
         DB::delete($sql, $data);
 
         // Delete data from redis
-        Redis::del('lowongan'.$lowonganId->id());
+        Redis::del(Redis::keys('lowongan'.$lowonganId->id()));
     }
 }
